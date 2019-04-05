@@ -8,7 +8,8 @@ editor_options:
 ## Exercise 1
 
 ```{r setup}
-library(dplyr)
+library(tidyverse)
+library(readxl)
 orders <- read_excel("data/orders_data_set.xlsx")
 ```
 
