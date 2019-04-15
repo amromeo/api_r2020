@@ -26,15 +26,16 @@ summary(orders)
 ## Select
 
 ```{r}
-select(orders, Description, Department)
+select(orders, description, department)
 ```
 
 ## Exercise 2
 
-Alter the code to select just the `ORDER_STATUS_C` column:
+Alter the code to select just the `order_status_c` column:
 
 ```{r}
-select(orders, Description, Department)
+select(orders, description, department)
+select(orders, 8)
 ```
 
 
