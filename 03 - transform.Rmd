@@ -35,7 +35,6 @@ Alter the code to select just the `order_status_c` column:
 
 ```{r}
 select(orders, description, department)
-select(orders, 8)
 ```
 
 
@@ -44,20 +43,20 @@ select(orders, 8)
 Which of these is NOT a way to remove the columns that represent status codes?
 
 ```{r}
-select(orders, -ends_with("_C"))
-select(orders, -c(LAB_STATUS_C, ORDER_STATUS_C, REASON_FOR_CANC_C))
+select(orders, -ends_with("_c"))
+select(orders, -c(lab_status_c, order_status_c, reason_for_canc_c))
 select(orders, -c(6,8,10))
-select(orders, -contains("STATUS"))
+select(orders, -contains("status"))
 ```
 
 ## Filter
 
 ```{r}
-filter(orders, `Patient ID` == 505646)
+filter(orders, patient_id == 508061)
 ```
 
 ```{r}
-filter(orders, `Proc Code` == "COMP")
+filter(orders, proc_code == "BMP")
 ```
 
 
