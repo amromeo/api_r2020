@@ -62,55 +62,68 @@ filter(orders, proc_code == "BMP")
 
 ## Exercise 3
 
-Alter the 3 code blocks below and use filter() to show:
+Use the 3 code blocks below and `filter()` to show how you would filter the `orders` dataset.
+
+First modify the code in this block to find:
 
 * Every order_id that is greater than 100000
 ```{r}
 filter(orders, proc_code == "BMP")
-filter(orders, !is.na(reason_for_canc_c_descr))
 ```
+
+After modifying the code above, copy and paste it into the next two code blocks, and alter it to show:
 
 * All of the orders where lab_status_c_descr is equal to “Final result”
 ```{r}
 
 ```
 
-* All of the orders where REASON_FOR_CANC_C_DESCR is not NA 
+* All of the orders where reason_for_canc_c_descr is not NA 
 ```{r}
 
 ```
 
 
-## Your Turn 4
+## Exercise 4
 
-Use Boolean operators to alter the code below to return only the rows that contain:
+Modify the code below and use Boolean operators to identify the rows in the `orders` dataset that fulfill the following conditional statements: 
 
-* Girls named Sea  
-* Names that were used by exactly 5 or 6 children in 1880  
-* Names that are one of Acura, Lexus, or Yugo
+* Orders for patient number 510909 with proc_code TSH 
+
+* Orders for tests that were canceled and originally chosen from a preference list (HINT: These are coded in the pref_list_type column)
+
+* Orders for one of the following departments: OB GYN CLINIC, GERIATRIC CLINIC, or PEDIATRIC CLINICS
+
+NOTE: Use the following code block as a template for the first filter() statement. For each of the remaining two, either copy paste a new code block, or use the CTRL-ALT-I keyboard shortcut to make a new code block. Use the new code blocks for the next two filter() statements.
 
 ```{r}
-filter(orders, name == "Sea" | name == "Anemone")
+filter(orders, proc_code == "BMP")
 ```
 
 ## Arrange
 
 ```{r}
-arrange(orders, n)
+arrange(orders, patient_id)
 ```
 
-## Your Turn 5
+## Exercise 5
 
-Arrange orders by `n`. Add `prop` as a second (tie breaking) variable to arrange on. Can you tell what the smallest value of `n` is?
+Modify the code below to arrange orders by `order_status_c_descr`. What order statuses appear in the top rows of the data frame?
+
+Now  add `order_class_c_descr` as a second (tie breaking) variable to arrange on, but order it in reverse alphabetical order. Explore what type of order class appears in the first rows of the data frame. Based on the description column, to what type of lab test does this order class seem to relate to?
+
 
 ```{r}
+arrange(orders, result_time)
 
+arrange(orders, (order_status_c_descr)) %>% View
+        , desc(order_class_c_descr))
 ```
 
 ## desc
 
 ```{r}
-arrange(orders, desc(n))
+arrange(orders, result_time)
 ```
 
 ## Your Turn 6
