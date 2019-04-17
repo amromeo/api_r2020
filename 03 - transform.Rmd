@@ -64,20 +64,20 @@ filter(orders, proc_code == "BMP")
 
 Alter the 3 code blocks below and use filter() to show:
 
-* All of the orders where LAB_STATUS_C_DESCR is equal to “Final result”
-* All Order_ID’s that are greater than 100000
+* Every order_id that is greater than 100000
+```{r}
+filter(orders, proc_code == "BMP")
+filter(orders, !is.na(reason_for_canc_c_descr))
+```
+
+* All of the orders where lab_status_c_descr is equal to “Final result”
+```{r}
+
+```
+
 * All of the orders where REASON_FOR_CANC_C_DESCR is not NA 
-
 ```{r}
-filter(orders, `Proc Code` == "COMP")
-```
 
-```{r}
-filter(orders, `Proc Code` == "COMP")
-```
-
-```{r}
-filter(orders, `Proc Code` == "COMP")
 ```
 
 
