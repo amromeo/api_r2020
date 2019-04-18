@@ -29,8 +29,8 @@ Working with our cloud based RStudio instance will be the most reliable way to p
 There are multiple ways to access and interact with the course content, depending on whether you choose to proceed through the workshop using the cloud based RStudio or one on your own laptop. 
 1. If you choose to use the the cloud based RStudio instance, all the course content is pre-loaded. 
 1. If you would prefer to run RStudio on your own computer, download the course material from the course github [repository](https://github.com/amromeo/api_r2019) as a *.zip file from [here](https://github.com/amromeo/api_r2019/archive/master.zip). 
-  * Unzip the file to a convenient location (your desktop or documents folder)
-  * When you open RStudio, set this location as your working directory 
+   * Unzip the file to a convenient location (your desktop or documents folder)
+   * When you open RStudio, set this location as your working directory 
 
 
 ## Acknowledgments
