@@ -1,0 +1,78 @@
+---
+title: "R Markdown for Reproducibility"
+author: "Patrick Mathias"
+output: html_document
+---
+
+## Setup
+
+The first chunk in the document is typically where you load all packages you will use throughout the document.
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readxl)
+library(janitor)
+```
+
+## Where am I?
+
+Use `getwd()` to show your working directory.
+
+```{r wd}
+getwd()
+```
+
+## Load a file
+
+```{r load_file}
+menu <- read_csv("data/test_menu.csv")
+```
+
+What does RStudio tell you after you import the data?
+
+## Exercise 3
+
+1. Locate and load the orders data set for the course from the data folder into an object (data frame) called "orders". 
+2. Review the data in the new data frame using the `glimpse()` function. 
+3. Within your Environment tab (top right), click the name of the object and review the raw data.
+
+```{r}
+
+```
+
+```{r}
+orders <- read_excel("data/orders_data_set.xlsx")
+```
+
+## Quick summary
+
+```{r}
+summary(orders)
+```
+
+## Tabulating
+
+`tabyl` function can create quick cross tabluations to drill down into categorical fields.
+
+```{r}
+tabyl(orders, department)
+```
+
+
+```{r}
+tabyl(orders, department, order_status_c_descr)
+```
+
+## Exercise 4
+
+Which 3 departments ordered the highest number of labs using “Provider Preference Lists”? (pref_list_type variable)
+
+```{r}
+
+```
+
+```{r}
+tabyl(orders, department, pref_list_type)
+```
+
