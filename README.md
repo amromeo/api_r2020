@@ -32,6 +32,9 @@ There are multiple ways to access and interact with the course content, dependin
    * Unzip the file to a convenient location (your desktop or documents folder)
    * When you open RStudio, set this location as your working directory 
 
+## The day of the workshop
+
+The workshop is scheduled to begin at 8 am sharp. In order to make ensure that we can begin on schedule please make every effort to arrive 10 - 15 minutes early to allow time to get settled, get your laptop set up, and get RStudio up and running.
 
 ## Acknowledgments
 
