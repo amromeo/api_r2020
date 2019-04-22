@@ -15,21 +15,27 @@ This introductory R workshop aims to teach participants with minimal programming
 - A laptop (macOS, Windows, or Linux) with WiFi
   - Please confirm you can connect to the conference WiFi prior to class
 - Please complete the following survey so we can better understand your R experience and what you want out of the course: [API R Workshop Participant Survey](https://forms.gle/Xe3U71ZBZRmrP2E87)
-- The program that we will be using to interact with R during the course is called RStudio. We will be sending out a link to a pre-configured cloud based instance of RStudio. Our intent in using cloud-based platform for the workshop is to minimize possible in-class setup issues. Please confirm that you can open the link and successfully sign in.
+- The program that we will be using to interact with R during the course is called RStudio. We will be using a cloud based RStudio server, hosted at [RStudio.Cloud](Rstudio.cloud), in our workshop. Our intent in using a cloud-based platform to minimize possible in-class setup issues.
+- Please follow the instructions in [this presentation](https://raw.githubusercontent.com/amromeo/api_r2019/master/00 - Setup_Cloud_Account.pptx) to setup an [RStudio.Cloud](Rstudio.cloud) account. 
+- As the date of the conference approaches, we will be sending out a web link that will grant access to the workshop project within RStudio.Cloud. 
+- While not required we **highly** recommend installing RStudio Desktop on your laptop as well. See instructions below.
 
-## Installing RStudio onto your own computer
+### Installing RStudio onto your own computer
 
 Working with our cloud based RStudio instance will be the most straightforward way to proceed through the workshop. However, in the long term, you will need R and RStudio installed on your own computer in order to work on private or PHI containing data. You can find a video with step by step instructions for installing on Mac or PC by following the links below:
 
 - [macOS Video](https://www.youtube.com/watch?v=GM88tYlEy_g) 
-- [Windows Video](https://www.youtube.com/watch?v=JRKmZK5-6aE) 
+- [Windows Video](https://www.youtube.com/watch?v=JRKmZK5-6aE)
+
+Please complete each step in the video in turn including the final step, installing the tidyverse packages.
 
 ## Accessing/interacting with the course content
 
 There are multiple ways to access and interact with the course content, depending on whether you choose to proceed through the workshop using the cloud based RStudio or one on your own laptop. 
 
-1. If you choose to use the the cloud based RStudio instance, all the course content is pre-loaded. 
-2. If you would prefer to run RStudio on your own computer, download the course material from the course github [repository](https://github.com/amromeo/api_r2019) as a \*.zip file from [here](https://github.com/amromeo/api_r2019/archive/master.zip). 
+1. If you choose to use the the cloud based RStudio instance, all the course content will be pre-loaded. 
+2. If you would prefer to run RStudio on your own computer:
+   * download the course material from the course github [repository](https://github.com/amromeo/api_r2019) as a \*.zip file from [here](https://github.com/amromeo/api_r2019/archive/master.zip) 
    * Unzip the file to a convenient location (your desktop or documents folder)
    * When you open RStudio, set this location as your working directory 
 
