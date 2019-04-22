@@ -8,7 +8,7 @@ This introductory R workshop aims to teach participants with minimal programming
   * Patrick Mathias
   * Amrom Obstfeld
   * Joseph Rudolf
-
+ 
 
 ## Pre-course work/requirements
 
