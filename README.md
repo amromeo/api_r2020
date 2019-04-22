@@ -18,7 +18,7 @@ This introductory R workshop aims to teach participants with minimal programming
 - The program that we will be using to interact with R during the course is called RStudio. We will be using a cloud based RStudio server, hosted at [RStudio.Cloud](https://rstudio.cloud/), in our workshop. Our intent in using a cloud-based platform to minimize possible in-class setup issues.
 - Please follow the instructions in [this presentation](https://bit.ly/2W61U4d) to setup an [RStudio.Cloud](https://rstudio.cloud/) account. 
 - As the date of the conference approaches, we will be sending out a web link that will grant access to the workshop project within RStudio.Cloud. 
-- While not required we **highly** recommend installing RStudio Desktop on your laptop as well. See instructions below.
+- While not required, we **highly** recommend installing RStudio Desktop on your laptop as well. See instructions below.
 
 ### Installing RStudio onto your own computer
 
@@ -35,7 +35,7 @@ There are multiple ways to access and interact with the course content, dependin
 
 1. If you choose to use the the cloud based RStudio instance, all the course content will be pre-loaded. 
 2. If you would prefer to run RStudio on your own computer:
-   * download the course material from the course github [repository](https://github.com/amromeo/api_r2019) as a \*.zip file from [here](https://github.com/amromeo/api_r2019/archive/master.zip) 
+   * Download the course material from the course github [repository](https://github.com/amromeo/api_r2019) as a \*.zip file from [here](https://github.com/amromeo/api_r2019/archive/master.zip) 
    * Unzip the file to a convenient location (your desktop or documents folder)
    * When you open RStudio, set this location as your working directory 
 
