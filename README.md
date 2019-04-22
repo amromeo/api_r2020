@@ -14,7 +14,7 @@ This introductory R workshop aims to teach participants with minimal programming
 
 - A laptop (macOS, Windows, or Linux) with WiFi
   - Please confirm you can connect to the conference WiFi prior to class
-- Please complete the following survey so we can better understand your R experience and what you want out of the course: [API R Workshop Participant Survey](https://forms.gle/4ireLkLiKedkgoWa7)
+- Please complete the following survey so we can better understand your R experience and what you want out of the course: [API R Workshop Participant Survey](https://forms.gle/Xe3U71ZBZRmrP2E87)
 - The program that we will be using to interact with R during the course is called RStudio. We will be sending out a link to a pre-configured cloud based instance of RStudio. Our intent in using cloud-based platform for the workshop is to minimize possible in-class setup issues. Please confirm that you can open the link and successfully sign in.
 
 ## Installing RStudio onto your own computer
