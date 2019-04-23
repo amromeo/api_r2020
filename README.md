@@ -36,6 +36,7 @@ There are multiple ways to access and interact with the course content, dependin
 1. If you choose to use the the cloud based RStudio instance, all the course content will be pre-loaded. 
 2. If you would prefer to run RStudio on your own computer:
    * Download the course material from the course github [repository](https://github.com/amromeo/api_r2019) as a \*.zip file from [here](https://github.com/amromeo/api_r2019/archive/master.zip) 
+   * Note: As the course material will be periodically updated, please wait until the week prior to the conference to dowload the zip file
    * Unzip the file to a convenient location (your desktop or documents folder)
    * When you open RStudio, set this location as your working directory 
 
