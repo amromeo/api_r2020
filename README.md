@@ -17,6 +17,7 @@ This introductory R workshop aims to teach participants with minimal programming
 - Please complete the following survey so we can better understand your R experience and what you want out of the course: [API R Workshop Participant Survey](https://forms.gle/Xe3U71ZBZRmrP2E87)
 - The program that we will be using to interact with R during the course is called RStudio. We will be using a cloud based RStudio server, hosted at [RStudio.Cloud](https://rstudio.cloud/), in our workshop. Our intent in using a cloud-based platform to minimize possible in-class setup issues.
 - Please follow the instructions in [this presentation](https://bit.ly/2W61U4d) to setup an [RStudio.Cloud](https://rstudio.cloud/) account. 
+- *Note: Some older internet browsers may not be compatible with RStudio.cloud. See [this web page](https://support.rstudio.com/hc/en-us/articles/227449447-Supported-browsers-for-RStudio-Connect) for additional information.*
 - As the date of the conference approaches, we will be sending out a web link that will grant access to the workshop project within RStudio.Cloud. 
 - While not required, we **highly** recommend installing RStudio Desktop on your laptop as well. See instructions below.
 
