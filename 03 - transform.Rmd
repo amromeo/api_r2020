@@ -120,21 +120,52 @@ arrange(orders, patient_id)
 ## Steps and the pipe
 
 ```{r}
-orders %>%
-  filter(year == 2015, sex == "M") %>%
-  select(name, n) %>%
-  arrange(desc(n))
+VITD <- orders %>%
+		 filter(description == "1,25 DIHYDROXY VITAMIN D") %>%
+		 select(department, ordering_route, pref_list_type) %>%
+		 arrange(department)
+VITD
 ```
 
-## Your Turn 7
+## Exercise 6
 
 Use `%>%` to write a sequence of functions that: 
 
-1. Filter orders to just the girls that were born in 2015  
-2. Select the `name` and `n` columns  
-3. Arrange the results so that the most popular names are near the top.
+1. Filters to orders coming from the "BEHAVIORAL HEALTH CLINIC" (case-sensitive)
+2. Selects the `description`, `ordering_route`, and `pref_list_type` columns  
+3. Arrange the dataset by the `description` and `ordering_route` column.
+
+Using <-, assign the result to a new variable (name it whatever you like).
+
+Use your mouse to select the name of the new data frame from the list of data sets in the upper-right pane of Rstudio. Do you notice any ordering patterns?
 
 ```{r}
+orders %>% 
+  filter(department =='BEHAVIORAL HEALTH CLINIC') %>% 
+  select(description,pref_list_type, ordering_route) %>% 
+  arrange(description,ordering_route)
+```
+
+
+
+```{r}
+orders %>% 
+  group_by(description) %>% 
+  mutate(n=n()) %>% 
+  ungroup %>% 
+  group_by(patient_id,description) %>% 
+  mutate(myratio = n()/n) %>% 
+  select(patient_id,description,n,myratio) %>% 
+  distinct() %>% 
+  arrange(desc(myratio),desc(n)) %>% 
+  ungroup %>%  
+  mutate(factor = n*myratio) %>% 
+  filter(factor!=1,n<400) %>% View
+
+orders %>% 
+  filter(department =='BEHAVIORAL HEALTH CLINIC') %>% 
+  select(pref_list_type, ordering_route,description) %>% 
+  arrange(description)
 
 ```
 
