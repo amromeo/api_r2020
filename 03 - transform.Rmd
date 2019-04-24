@@ -8,8 +8,8 @@ editor_options:
 ## Exercise 1
 
 ```{r setup}
-library(tidyverse)
-library(readxl)
+library(dplyr)  # Provides functions used throughout this session
+library(readxl) # Provides function for reading in excel workbooks
 orders <- read_excel("data/orders_data_set.xlsx")
 ```
 
@@ -22,6 +22,7 @@ orders
 ```{r}
 summary(orders)
 ```
+
 
 ## Select
 
@@ -36,7 +37,6 @@ Alter the code to select just the `order_status_c` column:
 ```{r}
 select(orders, description, department)
 ```
-
 
 ## Consider
 
@@ -58,7 +58,6 @@ filter(orders, patient_id == 508061)
 ```{r}
 filter(orders, proc_code == "BMP")
 ```
-
 
 ## Exercise 3
 
@@ -83,7 +82,6 @@ After modifying the code above, copy and paste it into the next two code blocks,
 
 ```
 
-
 ## Exercise 4
 
 Modify the code below and use Boolean operators to identify the rows in the `orders` dataset that fulfill the following conditional statements: 
@@ -100,6 +98,7 @@ NOTE: Use the following code block as a template for the first filter() statemen
 filter(orders, proc_code == "BMP")
 ```
 
+
 ## Arrange
 
 ```{r}
@@ -110,30 +109,12 @@ arrange(orders, patient_id)
 
 Modify the code below to arrange orders by `order_status_c_descr`. What order statuses appear in the top rows of the data frame?
 
-Now  add `order_class_c_descr` as a second (tie breaking) variable to arrange on, but order it in reverse alphabetical order. Explore what type of order class appears in the first rows of the data frame. Based on the description column, to what type of lab test does this order class seem to relate to?
-
-
-```{r}
-arrange(orders, result_time)
-
-arrange(orders, (order_status_c_descr)) %>% View
-        , desc(order_class_c_descr))
-```
-
-## desc
+Now in a new code chunk add `order_class_c_descr` as a second (tie breaking) variable to arrange on, but order it in reverse alphabetical order. Explore what type of order class appears in the first rows of the data frame. Based on the description column, to what type of lab test does this order class seem to relate to?
 
 ```{r}
-arrange(orders, result_time)
+arrange(orders, patient_id)
 ```
 
-## Your Turn 6
-
-Use `desc()` to find the names with the highest prop.
-Then, use `desc()` to find the names with the highest n.
-
-```{r}
-
-```
 
 ## Steps and the pipe
 
