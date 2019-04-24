@@ -8,7 +8,7 @@ editor_options:
 ## Exercise 1
 
 ```{r setup}
-library(dplyr)  # Provides functions used throughout this session
+library(tidyverse)  # Provides functions used throughout this session
 library(readxl) # Provides function for reading in excel workbooks
 orders <- read_excel("data/orders_data_set.xlsx")
 ```
@@ -28,6 +28,7 @@ summary(orders)
 
 ```{r}
 select(orders, description, department)
+select(orders, c(1,4))
 ```
 
 ## Exercise 2
