@@ -194,24 +194,27 @@ orders %>%
 
 ## Exercise 8
 
-Start by adding a new code block here (copy/paste above or CTRL-ALT-I). Then add on to the code in the previous slide to determine the average number of orders per patient *and per department*.
+Start by adding a new code block here (copy/paste above or CTRL-ALT-I).
+
+Then add on to the code in the previous code block to determine the average number of orders per patient *and per department*.
 
 
 
 
 
 
-## Your Turn 9
 
-Use summarise() to compute three statistics about the data:
+## Exercise 9
 
-1. The first (minimum) year in the dataset  
-2. The last (maximum) year in the dataset  
-3. The total number of children represented in the data
+Start by adding a new code block here (copy/paste above or CTRL-ALT-I).
 
-```{r}
+Use summarize() to calculate the date of the first (minimum) order and last (maximum) result in the orders data frame
 
-```
+
+
+
+
+
 
 ## Your Turn 10
 
