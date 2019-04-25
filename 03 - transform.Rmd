@@ -154,7 +154,6 @@ orders %>%
 	mutate(TAT = result_time - order_time)
 ```
 
-
 ## Your Turn 7
 
 The weekdays() function will return the weekday for any date.
@@ -167,11 +166,24 @@ The weekdays() function will return the weekday for any date.
 
 ```
 
+
+Replace a column with `mutate()`
 ```{r}
 orders %>%
-	mutate(pref_list_type = pref_list_type %in% c("Clinic Preference List","Provider Preference List")) 
-orders %>% distinct(lab_status_c_descr)
+	mutate(pref_list_type = pref_list_type %in% c("Clinic Preference List",  
+					"Provider Preference List")) 
 ```
+
+Conditionally replace values in a column with `mutate()`
+```{r}
+orders %>%
+	mutate(proc_code = ifelse(proc_code %in% c("CBC","CBD"), 
+	                          "CBC", 
+	                          proc_code)) 
+```
+
+
+
 
 
 
