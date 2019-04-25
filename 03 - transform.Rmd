@@ -131,7 +131,7 @@ VITD
 
 Use `%>%` to write a sequence of functions that: 
 
-1. Filters to orders coming from the "BEHAVIORAL HEALTH CLINIC" (case-sensitive)
+1. Filters to orders coming from the department "BEHAVIORAL HEALTH CLINIC" (case-sensitive)
 2. Selects the `description`, `ordering_route`, and `pref_list_type` columns  
 3. Arrange the dataset by the `description` and `ordering_route` column.
 
@@ -147,37 +147,33 @@ orders %>%
 ```
 
 
+## mutate
 
 ```{r}
-orders %>% 
-  group_by(description) %>% 
-  mutate(n=n()) %>% 
-  ungroup %>% 
-  group_by(patient_id,description) %>% 
-  mutate(myratio = n()/n) %>% 
-  select(patient_id,description,n,myratio) %>% 
-  distinct() %>% 
-  arrange(desc(myratio),desc(n)) %>% 
-  ungroup %>%  
-  mutate(factor = n*myratio) %>% 
-  filter(factor!=1,n<400) %>% View
-
-orders %>% 
-  filter(department =='BEHAVIORAL HEALTH CLINIC') %>% 
-  select(pref_list_type, ordering_route,description) %>% 
-  arrange(description)
-
+orders %>%
+	mutate(TAT = result_time - order_time)
 ```
 
-## Your Turn 8
 
-1. Trim `orders` to just the rows that contain your `name` and your `sex`  
-2. Trim the result to just the columns that will appear in your graph (not strictly necessary, but useful practice)  
-3. Plot the results as a line graph with `year` on the x axis and `prop` on the y axis
+## Your Turn 7
+
+The weekdays() function will return the weekday for any date.
+
+1. Use the weekdays() function to make a new column which contains the day of the week that each order was placed.
+2. Then select this column and the order_time column.
+
 
 ```{r}
 
 ```
+
+```{r}
+orders %>%
+	mutate(pref_list_type = pref_list_type %in% c("Clinic Preference List","Provider Preference List")) 
+orders %>% distinct(lab_status_c_descr)
+```
+
+
 
 ## Your Turn 9
 
