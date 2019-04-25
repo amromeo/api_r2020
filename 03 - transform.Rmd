@@ -154,12 +154,12 @@ orders %>%
 	mutate(coded_order_id = order_id/2) %>% select(coded_order_id)
 ```
 
-## Your Turn 7
+## Exercise 7
 
 The weekdays() function will return the weekday for any date.
 
 1. Use the weekdays() function to make a new column which contains the day of the week that each order was placed.
-2. Then select this column and the order_time column.
+2. Then select this new column and the order_time column.
 
 
 ```{r}
@@ -170,8 +170,9 @@ The weekdays() function will return the weekday for any date.
 Replace a column with `mutate()`
 ```{r}
 orders %>%
-	mutate(pref_list_type = pref_list_type %in% c("Clinic Preference List",  
-					"Provider Preference List")) 
+	mutate(pref_list_type = 
+	         pref_list_type %in% c("Clinic Preference List", 
+	                               "Provider Preference List")) 
 ```
 
 Conditionally replace values in a column with `mutate()`
@@ -181,6 +182,19 @@ orders %>%
 	                          "CBC", 
 	                          proc_code)) 
 ```
+
+
+## Summarize
+
+```{r}
+orders %>%
+	summarize(order_count = n(),      
+              pt_count = n_distinct(patient_id)) 
+```
+
+## Exercise 8
+
+Start by adding a new code block here (copy/paste above or CTRL-ALT-I). Then add on to the code in the previous slide to determine the average number of orders per patient *and per department*.
 
 
 
