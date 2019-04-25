@@ -85,11 +85,11 @@ After modifying the code above, copy and paste it into the next two code blocks,
 
 ## Exercise 4
 
-Modify the code below and use Boolean operators to identify the rows in the `orders` dataset that fulfill the following conditional statements: 
+Modify the code block below and use Boolean operators with `filter()` to identify the rows in the `orders` dataset that fulfill the following conditional statements: 
 
 * Orders for patient number 510909 with proc_code TSH 
 
-* Orders for tests that were canceled and originally chosen from a preference list (HINT: These are coded in the pref_list_type column)
+* Orders for tests that were canceled and originally chosen from a preference list (HINT: These are coded in the pref_list_type column as either "Clinic Preference List" or "Provider Preference List")
 
 * Orders for one of the following departments: OB GYN CLINIC, GERIATRIC CLINIC, or PEDIATRIC CLINICS
 
@@ -151,7 +151,7 @@ orders %>%
 
 ```{r}
 orders %>%
-	mutate(TAT = result_time - order_time)
+	mutate(coded_order_id = order_id/2) %>% select(coded_order_id)
 ```
 
 ## Your Turn 7
