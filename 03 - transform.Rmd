@@ -36,7 +36,7 @@ select(orders, c(1,4))
 Alter the code to select just the `order_status_c` column:
 
 ```{r}
-select(orders, description, department)
+orders_ex2 <- select(orders, description, department)
 ```
 
 ## Consider
@@ -68,17 +68,17 @@ First modify the code in this block to find:
 
 * Every order_id that is greater than 100000
 ```{r}
-filter(orders, proc_code == "BMP")
+orders_ex3a <- filter(orders, proc_code == "BMP")
 ```
 
 After modifying the code above, copy and paste it into the next two code blocks, and alter it to show:
 
-* All of the orders where lab_status_c_descr is equal to “Final result”
+* All of the orders where lab_status_c_descr is equal to "Final result" (assign this to orders_ex3b)
 ```{r}
 
 ```
 
-* All of the orders where reason_for_canc_c_descr is not NA 
+* All of the orders where reason_for_canc_c_descr is not NA (assign this to orders_ex3c)
 ```{r}
 
 ```
@@ -93,10 +93,15 @@ Modify the code block below and use Boolean operators with `filter()` to identif
 
 * Orders for one of the following departments: OB GYN CLINIC, GERIATRIC CLINIC, or PEDIATRIC CLINICS
 
-NOTE: Use the following code block as a template for the first filter() statement. For each of the remaining two, either copy paste a new code block, or use the CTRL-ALT-I keyboard shortcut to make a new code block. Use the new code blocks for the next two filter() statements.
+NOTE: 
+
+* Use the following code block as a template for the first filter() statement. 
+* For each of the remaining two, either copy paste a new code block, or use the CTRL-ALT-I keyboard shortcut to make a new code block. 
+* Use the new code blocks for the next two filter() statements. 
+* Assign the results of the filter functions to orders_ex4b and orders_ex4c, respectively. 
 
 ```{r}
-filter(orders, proc_code == "BMP")
+orders_ex4a <- filter(orders, proc_code == "BMP")
 ```
 
 
@@ -113,7 +118,7 @@ Modify the code below to arrange orders by `order_status_c_descr`. What order st
 Now in a new code chunk add `order_class_c_descr` as a second (tie breaking) variable to arrange on, but order it in reverse alphabetical order. Explore what type of order class appears in the first rows of the data frame. Based on the description column, to what type of lab test does this order class seem to relate to?
 
 ```{r}
-arrange(orders, patient_id)
+orders_ex5 <- arrange(orders, patient_id)
 ```
 
 
@@ -135,9 +140,9 @@ Use `%>%` to write a sequence of functions that:
 2. Selects the `description`, `ordering_route`, and `pref_list_type` columns  
 3. Arrange the dataset by the `description` and `ordering_route` column.
 
-Using <-, assign the result to a new variable (name it whatever you like).
+Using <-, assign the result to a new variable (orders_ex6).
 
-Use your mouse to select the name of the new data frame from the list of data sets in the upper-right pane of Rstudio. Do you notice any ordering patterns?
+Use your mouse to select the name of the new data frame from the list of data sets in the upper-right pane of Rstudio. Do you notice any interesting test ordering patterns?
 
 ```{r}
 orders %>% 
@@ -160,6 +165,7 @@ The weekdays() function will return the weekday for any date.
 
 1. Use the weekdays() function to make a new column which contains the day of the week that each order was placed.
 2. Then select this new column and the order_time column.
+3. Assign the result to a new variable orders_ex7
 
 
 ```{r}
@@ -188,15 +194,15 @@ orders %>%
 
 ```{r}
 orders %>%
-	summarize(order_count = n(),      
-              pt_count = n_distinct(patient_id)) 
+	summarize(order_count = n(),
+	          pt_count = n_distinct(patient_id)) 
 ```
 
 ## Exercise 8
 
 Start by adding a new code block here (copy/paste above or CTRL-ALT-I).
 
-Then add on to the code in the previous code block to determine the average number of orders per patient *and per department*.
+Then add on to the code in the previous code block to determine the average number of orders per patient *and per department*. Assign the results to a new object, orders_ex8.
 
 
 
@@ -206,9 +212,10 @@ Then add on to the code in the previous code block to determine the average numb
 
 ## Exercise 9
 
-Start by adding a new code block here (copy/paste above or CTRL-ALT-I).
+Start by adding a new code block (copy/paste above or CTRL-ALT-I).
 
-Use summarize() to calculate the date of the first (minimum) order and last (maximum) result in the orders data frame
+Use summarize() to calculate the date of the first (minimum) order and last (maximum) result in the orders data frame. (Hint: Check your data transformation cheat sheet for how to calculate minimum and maximum.)
+Assign the results to a new object, orders_ex9.
 
 
 
