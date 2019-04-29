@@ -227,7 +227,6 @@ orders %>%
 
 ## group_by summarize
 
-
 ```{r}
 orders %>% 
   group_by(department) %>% 
@@ -237,8 +236,7 @@ orders %>%
   mutate(ord_index = order_util-mean(order_util)) %>% 
   arrange(desc(ord_index)) %>%
   select(-c(n,pt)) %>%
-  mutate(ord_ratio = ord_index/mean(order_util))   # %>% write.csv("data_output/ord_index.csv") 
-
+  mutate(ord_ratio = ord_index/mean(order_util))
 ```
 
 
