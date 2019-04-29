@@ -156,7 +156,7 @@ orders %>%
 
 ```{r}
 orders %>%
-	mutate(coded_order_id = order_id/2) %>% select(coded_order_id)
+	mutate(coded_order_id = order_id/2)
 ```
 
 ## Exercise 7
@@ -176,9 +176,7 @@ The weekdays() function will return the weekday for any date.
 Replace a column with `mutate()`
 ```{r}
 orders %>%
-	mutate(pref_list_type = 
-	         pref_list_type %in% c("Clinic Preference List", 
-	                               "Provider Preference List")) 
+	mutate(order_id = as.character(order_id))
 ```
 
 Conditionally replace values in a column with `mutate()`

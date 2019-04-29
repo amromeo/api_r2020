@@ -17,6 +17,13 @@ In this exercise we will be exploring a snippet of the MIMIC data set. MIMIC is 
 
 The subset that we will be exploring is a single table which includes laboratory data and some demographic information.
 
+## EDA session organization
+
+Each exercise is structured as follows:
+
+1. There will be an explicit task
+2. You will use functions we have learned to complete the task
+3. You will be asked to answer a question-set based on your findings
 
 ## Exercise 0
 
@@ -40,7 +47,52 @@ So far so good. Now we need to get our data into the rstudio environment so that
 
 ```{r}
 mimic <- read_csv("data/mimic.csv")
+
+summary(mimic)
 ```
+
+### Questions
+
+1. How many rows are in the data frame?
+2. How many columns are in the data frame?
+3. What does each row in the data frame represent?
+
+
+## Exercise 2
+
+I like to start my eda by testing my assumptions about what's inside of it. do my assumptions about what should be in a data set of test results pan out in this data set?
+
+- use `filter()` to find the NA values that are not NA in value
+
+```{r}
+mimic %>% 
+  filter(is.na(valuenum),
+         !is.na(value)) %>% 
+  select(panel_test, component, value,valuenum)
+  
+```
+
+
+## Exercise 3
+
+OK now that we've got a sense for the shape of the data let's figure out what's inside of it. When performing EDA this often involves looking at the distribution of data in each column. Perforce this is a little different depending on the data type in each column, continuous data, like numeric data, could be looked at with histograms, whereas categorical data, like character strings, may be best viewed with a summary table with counts. Let's start with the columns with character type data
+
+- In the code block below, use `group_by()` and `summarize()` to get a sense for the kinds of data in some of the columns with character data.
+- Use `n()` and `n_distinct` inside of the `summarize()` function to count the rows and distinct values in each group
+
+**HINT** check out how we used these functions in the third lesson.
+
+```{r}
+mimic %>% 
+  group_by(religion) %>% 
+  summarise(n=n_distinct(subject_id)) %>% arrange(desc(n))
+```
+
+### Questions
+
+1. How many distinct patients are in the data frame?
+2. How many different panel tests and components are in the data frame?
+3. What is the most common religion for patients in the data frame?
 
 
 
