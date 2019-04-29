@@ -13,6 +13,7 @@ knitr::opts_chunk$set(echo = TRUE)
 library(tidyverse)
 library(readxl)
 library(janitor)
+library(knitr) # making nice tables
 ```
 
 ## Where am I?
@@ -25,7 +26,7 @@ getwd()
 
 ## Load a file
 
-```{r load_file}
+```{r load_file, eval = FALSE}
 menu <- read_csv("data/test_menu.csv")
 ```
 
@@ -37,7 +38,7 @@ What does RStudio tell you after you import the data?
 2. Review the data in the new data frame using the `glimpse()` function. 
 3. Within your Environment tab (top right), click the name of the object and review the raw data.
 
-```{r}
+```{r, eval = FALSE}
 
 ```
 
@@ -66,13 +67,21 @@ tabyl(orders, department, order_status_c_descr)
 
 ## Exercise 4
 
-Which 3 departments ordered the highest number of labs using “Provider Preference Lists”? (pref_list_type variable)
+1. Which 3 departments ordered the highest number of labs using “Provider Preference Lists”? (pref_list_type variable)
+2. What happens if you add 3 variables to the function? Start out with variables we've already created tables for.
 
-```{r}
+```{r, eval = FALSE}
 
 ```
 
 ```{r}
 tabyl(orders, department, pref_list_type)
+tabyl(orders, department, pref_list_type, order_status_c_descr)
+```
+
+## Making your tables pretty
+
+```{r}
+kable(tabyl(orders, department, pref_list_type))
 ```
 
