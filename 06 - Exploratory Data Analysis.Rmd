@@ -11,13 +11,36 @@ In this lesson we will gain more experience with some of the tools we have discu
 
 ## Introduction to data set
 
-The data set for this lesson is derived from orders for clinical laboratory tests in an electronic health record system in a set of outpatient clinics. The orders were deidentified and time-shifted (and approved for use as a teaching resource). There are two files:
-- "orders_data_set.xlsx" represents the data as one row per order and includes the bulk of the details
-- "order_details.csv" maintains the one row per order structure and include ancillary information about how a test was ordered
+In this exercise we will be exploring a snippet of the MIMIC data set. MIMIC is an openly available dataset developed by the MIT Lab for Computational Physiology, comprising deidentified health data associated with ~40,000 critical care patients. It includes demographics, vital signs, laboratory tests, medications, and more. See this publication for additional information:
+
+> MIMIC-III, a freely accessible critical care database. Johnson AEW, Pollard TJ, Shen L, Lehman L, Feng M, Ghassemi M, Moody B, Szolovits P, Celi LA, and Mark RG. Scientific Data (2016). DOI: 10.1038/sdata.2016.35. Available at: http://www.nature.com/articles/sdata201635
+
+The subset that we will be exploring is a single table which includes laboratory data and some demographic information.
 
 
-```{r setup_7, include=FALSE}
-knitr::opts_chunk$set(echo = TRUE)
+## Exercise 0
+
+Before we begin we have to load our library of functions that we'll be using. Since all of the necessary functions are included in the tidyverse family of packages, all we need to do is run the library() command on tidyverse.
+
+- Use the code block below to run `library()` on "tidyverse"
+
+```{r}
 library(tidyverse)
-library(readxl)
 ```
+
+
+## Exercise 1
+
+So far so good. Now we need to get our data into the rstudio environment so that we can start poking at it. Relative to our current working directory the data is located in a subfolder called "data". The file is called "mimic.csv". 
+
+- In the code block below use the `read_csv()` function to read this data file into a new data frame called "mimic"
+- Take a look at the data frame. Use `summary()`. Press on the name of the data frame in the environment tab on the upper-right.
+
+**HINT** check out how we loaded the orders data set in the second and third lessons!
+
+```{r}
+mimic <- read_csv("data/mimic.csv")
+```
+
+
+
