@@ -33,7 +33,7 @@ The most comprehensive inventory of R related resources and educational material
 
 - Raf Irizarry, Harvard Professor and fantastic teacher has published a wonderful introductory Data Science Book. 
 
-[An Introduction to Statistical and Data Sciences via R,  Chester Ismay and Albert Y. Kim](moderndive.com)
+[An Introduction to Statistical and Data Sciences via R byChester Ismay and Albert Y. Kim](moderndive.com)
 
 - A fantastic introduction to R via statistical inference.
 

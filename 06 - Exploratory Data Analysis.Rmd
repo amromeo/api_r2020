@@ -1,0 +1,23 @@
+---
+title: "06 - Exploratory Data Analysis"
+output: html_notebook
+---
+
+## Overview of Exploratory Data Analysis
+
+Exploratory data analysis (EDA) is a process used to gain better understanding of a data set. The goal is to gain familiarity with the shape and contents of the data. The process often generates questions that can be further addressed through the use of statisical models and graphs. It is an iterative process that generally involves creating and exploring one or two dimensional summaries of the data that lead to the creation of additional summaries and ultimately an understanding of the data set. It also plays a role in data quality control, an important process by which the integrity of the data is evaluated prior to any decision-making or conclusions are made.
+
+In this lesson we will gain more experience with some of the tools we have discussed through an EDA exercise. For many of the questions we will ask you to answer there is no right or wrong way to answer the question. However, this is an opportunity to further commit some of the new functions you have learned to memory.
+
+## Introduction to data set
+
+The data set for this lesson is derived from orders for clinical laboratory tests in an electronic health record system in a set of outpatient clinics. The orders were deidentified and time-shifted (and approved for use as a teaching resource). There are two files:
+- "orders_data_set.xlsx" represents the data as one row per order and includes the bulk of the details
+- "order_details.csv" maintains the one row per order structure and include ancillary information about how a test was ordered
+
+
+```{r setup_7, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(tidyverse)
+library(readxl)
+```
