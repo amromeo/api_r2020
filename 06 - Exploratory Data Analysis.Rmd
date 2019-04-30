@@ -157,7 +157,7 @@ mimic %>%
 1. How many distinct patients and admissions are in the data frame?
 2. How many different panel tests and components are in the data frame?
 3. What is the most common religion for patients in the data frame?
-4. *Challenge Question* What is the most commonly ordered test in the data set.
+4. *Challenge Question* What is the most commonly ordered test in the data set?
 
 
 ## Exercise 4
@@ -174,19 +174,54 @@ ggplot()+
   geom_histogram(aes(valuenum,fill=category))+
   scale_x_log10()+
   facet_wrap(~category, scales = "free_y")
+
+mimic %>% 
+  filter(panel_test == 'CBC', component=='Hemoglobin') %>% 
+  ggplot()+
+  geom_histogram(aes(valuenum, fill=flag),binwidth = .1)
+
+mimic %>% filter(panel_test == 'CBC', component=='Hemoglobin',flag=='abnormal',valuenum>12.5) %>% View
 ```
 
 1. What do you notice about the pattern of **charttime**s and **valuenum**s in the data frame?
 2. Are there differences between the distribution of "Chemistry" and "Hematology" test **category**s?
 3. Are there outlier categories with only a few results?
+4. *Challenge Question* Can you estimate what the reference range is for the "Hemoglobin" **component**?
 
+
+## Show and Tell 3
+
+We have some familiarity now with how our data looks. Let's now make some exploratory graphics in which we include several columns/variables with which we can learn more about how laboratory testing works in this data set. We will load a new package called lubridate which does not automatically load with `library(tidyverse)`. Lubridate will provide a necessary function to further probe the mimic data frame.
+
+- Run this code block
+- There are two new functions
+- See if you can determine what they are doing by stepping through the pipeline (use your mouse to highlight just the beginning of the code and press CTRL + Enter or CMD + Enter to just execute the highlighted code)
+
+**HINT** remember to type "?" before a function, execute it, and get a nifty help file in the lower right pane.
+
+```{r}
+library(lubridate)
+mimic %>% 
+  mutate(charthour = hour(charttime)) %>% 
+  distinct(curr_service,category,charttime,charthour,hadm_id,panel_test) %>% 
+  ggplot(aes(x=charthour,fill=category))+
+  scale_fill_viridis_d()+
+  geom_bar()+
+  facet_wrap(~curr_service, scales = "free_y")
+```
+
+1. The `hour()` function is part of the lubridate package, what do you think it does?
+2. The `distinct()` function is part of the dplyr package, what do you think it does? Why are we using it in this analysis?
+3. What service in this data frame does the most testing?
+4. Compare the use of different categories of tests by different services, which are the most alike, which are the most different?
+5. Examine the peak **charthour** per service, can you track the phlebotomy service through the ICUs?
 
 ```{r}
 mimic %>% filter(category %in% c("HEMATOLOGY","CHEMISTRY"))
 ```
 
 
-find the reference range
+
 
 ```{r}
 mimic %>% 
