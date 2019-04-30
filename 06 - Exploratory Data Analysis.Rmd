@@ -39,6 +39,7 @@ Before we begin we have to load our library of functions that we'll be using. Si
 
 ```{r}
 library(tidyverse)
+library(tidylog)
 ```
 
 
@@ -63,52 +64,6 @@ summary(mimic)
 2. How many columns are in the data frame?
 3. What does each row in the data frame represent?
 4. How many columns contain information about the patient's admission and how many relate to the test order?
-
-
-## Exercise 2
-
-OK now that we've got a sense for the shape of the data let's figure out what's inside of it. I like to start by testing my assumptions about the data set. The mimic data frame has results data for ICU patients. We will use some simple dplyr functions to better understand the patterns of data in the mimic data frame.
-
-- Use `filter()` to find the rows that have NA in the valuenum column.
-- Use `select()` to narrow down on just the "panel_test", "test_name", "component", "value" and "valuenum" columns.
-- Use `arrange()` to order the data frame by "value" and "component" columns
-
-```{r}
-mimic %>% 
-  filter(is.na(valuenum),
-         !is.na(value)) %>% 
-  select(panel_test, component, value,valuenum) %>%
-  arrange((value),component) %>% View
-  
-```
-
-1. What is the difference between the "value" and "valuenum" columns?
-2. What kind of result values in the data set appear in the "value" column but are NA in the "valuenum" column?
-
-
-## Exercise 3
-
-Performing EDA often begins by looking at the distribution of data in each column. Perforce this is a little different depending on the data type in each column. Continuous data, like numeric data, could be looked at with histograms, whereas categorical data, like character strings, may be best viewed with a summary table with counts. Let's start with the columns with character type data.
-
-- In the code block below, use `group_by()` and `summarize()` to get a sense for the kinds of data in some of the columns with character data.
-- Use `n()` and `n_distinct` inside of the `summarize()` function to count the rows and distinct values in each group
-
-**HINT** check out how we used these functions in the third lesson.
-
-```{r}
-mimic %>% 
-  group_by(curr_service) %>% 
-  summarise(n=n()) %>% 
-  arrange(desc(n))
-```
-
-### Questions
-
-1. How many distinct patients and admissions are in the data frame?
-2. How many different panel tests and components are in the data frame?
-3. What is the most common religion for patients in the data frame?
-4. *Challenge Question* What is the most commonly ordered test in the data set.
-
 
 ## Show and Tell 1
 
@@ -135,19 +90,91 @@ mimic %>%
 3. What patterns do you see in the "missingness" in each of the columns?
 
 
+## Exercise 2
+
+OK now that we've got a sense for the shape of the data let's figure out what's inside of it. I like to start by testing my assumptions about the data set. The mimic data frame has results data for ICU patients. We will use some simple dplyr functions to better understand the patterns of data in the mimic data frame.
+
+- Use `filter()` to find the rows that have NA in the valuenum column.
+- Use `select()` to narrow down on just the "panel_test", "test_name", "component", "value" and "valuenum" columns.
+- Use `arrange()` to order the data frame by "value" and "component" columns
+
+```{r}
+mimic %>% 
+  filter(is.na(valuenum),
+         !is.na(value)) %>% 
+  select(panel_test, component, value,valuenum) %>%
+  arrange((value),component) %>% View
+  
+```
+
+1. What is the difference between the "value" and "valuenum" columns?
+2. What kind of result values in the data set appear in the "value" column but are NA in the "valuenum" column?
+
+## Show and Tell 2
+
+Based on our findings from exercise 1 it's clear that we have data that might be considered numeric hidden in results that are coded as characters together with greater than (>) and less than signs (<). These most likely related to the upper and lower limits of the analytical  measurement range of laboratory instruments. If we are to perform statistics or vizualizations on this data we should consider how to integrate these. One possible solution is to remove the symbols and use the numeric results in future analyses. 
+
+- Run this code block
+- There are two new functions
+- See if you can determine what they are doing by stepping through the pipeline (use your mouse to highlight just the beginning of the code and press CTRL + Enter or CMD + Enter to just execute the highlighted code)
+
+**HINT** remember from lesson 1 that you can type "?" before a function, execute it, and get a nifty help file in the lower right pane.
+
+```{r}
+mimic %>% 
+  filter(str_detect(value,">|<")) %>% 
+  mutate(valuenum = ifelse(str_detect(value,">|<"),
+                        parse_number(value),
+                        valuenum)) %>% 
+  select(test_name,component, value, valuenum)
+```
+
+### Questions
+
+1. Based on the help page, and your understanding of what `filter()` does, how does `str_detect()` work?
+2. What does `parse_number()` do?
+3. What do you think `parse_number()` would do with a character string with non-numeric character in it such as "2.5" "2,500" and "2.5.66"?
+
+
+## Exercise 3
+
+Performing EDA often begins by looking at the distribution of data in each column. Perforce this is a little different depending on the data type in each column. Continuous data, like numeric data, could be looked at with histograms, whereas categorical data, like character strings, may be best viewed with a summary table with counts. Let's start with the columns with character type data.
+
+- In the code block below, use `group_by()` and `summarize()` to get a sense for the kinds of data in some of the columns with character data.
+- Use `n()` and `n_distinct` inside of the `summarize()` function to count the rows and distinct values in each group
+
+**HINT** check out how we used these functions in the third lesson.
+
+```{r}
+mimic %>% 
+  group_by(curr_service) %>% 
+  summarise(n=n()) %>% 
+  arrange(desc(n))
+```
+
+### Questions
+
+1. How many distinct patients and admissions are in the data frame?
+2. How many different panel tests and components are in the data frame?
+3. What is the most common religion for patients in the data frame?
+4. *Challenge Question* What is the most commonly ordered test in the data set.
+
+
+
+
+
 ## Exercise 4
 
 OK, after having looked at some categorical variables and the distribution of NA's, let's have a look at some of the continous variables. In mimic we have the charttime, which is in a date time format, and we have the valuenum column. A very effective way to examine these kinds of data are with a histogram. Let's use our ggplotting skills to see what's going on in these columns
 
-- use ggplot() to assess the distribution of **charttime**
+- Use `ggplot()` to assess the distribution of **charttime** and **valuenum**
+- Use the color aesthetic to parse out the contribution of different category or fluid to the distribution of laboratory values
 
 ```{r}
 
-
-
 ```
 
-
+find the reference range
 
 ```{r}
 mimic %>% 
