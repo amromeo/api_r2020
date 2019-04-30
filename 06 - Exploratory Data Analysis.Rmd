@@ -5,7 +5,7 @@ output: html_notebook
 
 ## Overview of Exploratory Data Analysis
 
-Exploratory data analysis (EDA) is a process used to gain better understanding of a data set. The goal is to gain familiarity with the shape and contents of the data. The process often generates questions that can be further addressed through the use of statisical models and graphs. It is an iterative process that generally involves creating and exploring one or two dimensional summaries of the data that lead to the creation of additional summaries and ultimately an understanding of the data set. It also plays a role in data quality control, an important process by which the integrity of the data is evaluated prior to any decision-making or conclusions are made.
+Exploratory data analysis (EDA) is a process used to gain better understanding of a data set. The goal is to gain familiarity with the shape and contents of the data. The approach often generates questions that can be further addressed through the use of statisical models and graphs. It is an iterative process that generally involves creating and exploring one or two dimensional summaries of the data that lead to the creation of additional summaries and ultimately an understanding of the data set. It also plays a role in data quality control, an important process by which the integrity of the data is evaluated prior to any decision-making or conclusions are made.
 
 In this lesson we will gain more experience with some of the tools we have discussed through an EDA exercise. For many of the questions we will ask you to answer there is no right or wrong way to answer the question. However, this is an opportunity to further commit some of the new functions you have learned to memory.
 
@@ -16,6 +16,12 @@ In this exercise we will be exploring a snippet of the MIMIC data set. MIMIC is 
 > MIMIC-III, a freely accessible critical care database. Johnson AEW, Pollard TJ, Shen L, Lehman L, Feng M, Ghassemi M, Moody B, Szolovits P, Celi LA, and Mark RG. Scientific Data (2016). DOI: 10.1038/sdata.2016.35. Available at: http://www.nature.com/articles/sdata201635
 
 The subset that we will be exploring is a single table which includes laboratory data and some demographic information.
+
+Some important columns include:
+- subject_id: Unique patient identifier
+- hadm_id: Unique admission identifier
+- charttime: Time of specimen collection
+- curr_service: Name of service that sent the test
 
 ## EDA session organization
 
@@ -43,7 +49,7 @@ So far so good. Now we need to get our data into the rstudio environment so that
 - In the code block below use the `read_csv()` function to read this data file into a new data frame called "mimic"
 - Take a look at the data frame. Use `summary()`. Press on the name of the data frame in the environment tab on the upper-right.
 
-**HINT** check out how we loaded the orders data set in the second and third lessons!
+**HINT** check out how we loaded the menu/test_catalog data set in the second lesson!
 
 ```{r}
 mimic <- read_csv("data/mimic.csv")
@@ -57,12 +63,11 @@ summary(mimic)
 2. How many columns are in the data frame?
 3. What does each row in the data frame represent?
 4. How many columns contain information about the patient's admission and how many relate to the test order?
-5. What is the difference between the "value" and "valuenum" columns?
 
 
 ## Exercise 2
 
-I like to start my EDA by testing my assumptions about the data set. The mimic data frame has results data for ICU patients. We will use some simple dplyr functions to better understand the patterns of data in the mimic data frame.
+OK now that we've got a sense for the shape of the data let's figure out what's inside of it. I like to start my EDA by testing my assumptions about the data set. The mimic data frame has results data for ICU patients. We will use some simple dplyr functions to better understand the patterns of data in the mimic data frame.
 
 - Use `filter()` to find the rows that have NA in the valuenum column.
 - Use `select()` to narrow down on just the "panel_test", "test_name", "component", "value" and "valuenum" columns.
@@ -82,7 +87,7 @@ mimic %>%
 
 ## Exercise 3
 
-OK now that we've got a sense for the shape of the data let's figure out what's inside of it. When performing EDA this often involves looking at the distribution of data in each column. Perforce this is a little different depending on the data type in each column, continuous data, like numeric data, could be looked at with histograms, whereas categorical data, like character strings, may be best viewed with a summary table with counts. Let's start with the columns with character type data
+Performing EDA often begins by looking at the distribution of data in each column. Perforce this is a little different depending on the data type in each column. Continuous data, like numeric data, could be looked at with histograms, whereas categorical data, like character strings, may be best viewed with a summary table with counts. Let's start with the columns with character type data.
 
 - In the code block below, use `group_by()` and `summarize()` to get a sense for the kinds of data in some of the columns with character data.
 - Use `n()` and `n_distinct` inside of the `summarize()` function to count the rows and distinct values in each group
@@ -90,9 +95,9 @@ OK now that we've got a sense for the shape of the data let's figure out what's 
 **HINT** check out how we used these functions in the third lesson.
 
 ```{r}
-mimic %>% 
-  group_by(religion) %>% 
-  summarise(n=n_distinct(subject_id)) %>% arrange(desc(n))
+mimic %>% group_by(subject_id) %>%  summarise(hadms = n_distinct(hadm_id)) %>% summarise(max(hadms))
+  group_by(panel_test) %>% 
+  summarise(n=n_distinct(component)) %>% arrange(desc(n))
 ```
 
 ### Questions
