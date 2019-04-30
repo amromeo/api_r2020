@@ -1,0 +1,98 @@
+---
+title: "06 - Exploratory Data Analysis"
+output: html_notebook
+---
+
+## Overview of Exploratory Data Analysis
+
+Exploratory data analysis (EDA) is a process used to gain better understanding of a data set. The goal is to gain familiarity with the shape and contents of the data. The process often generates questions that can be further addressed through the use of statisical models and graphs. It is an iterative process that generally involves creating and exploring one or two dimensional summaries of the data that lead to the creation of additional summaries and ultimately an understanding of the data set. It also plays a role in data quality control, an important process by which the integrity of the data is evaluated prior to any decision-making or conclusions are made.
+
+In this lesson we will gain more experience with some of the tools we have discussed through an EDA exercise. For many of the questions we will ask you to answer there is no right or wrong way to answer the question. However, this is an opportunity to further commit some of the new functions you have learned to memory.
+
+## Introduction to data set
+
+In this exercise we will be exploring a snippet of the MIMIC data set. MIMIC is an openly available dataset developed by the MIT Lab for Computational Physiology, comprising deidentified health data associated with ~40,000 critical care patients. It includes demographics, vital signs, laboratory tests, medications, and more. See this publication for additional information:
+
+> MIMIC-III, a freely accessible critical care database. Johnson AEW, Pollard TJ, Shen L, Lehman L, Feng M, Ghassemi M, Moody B, Szolovits P, Celi LA, and Mark RG. Scientific Data (2016). DOI: 10.1038/sdata.2016.35. Available at: http://www.nature.com/articles/sdata201635
+
+The subset that we will be exploring is a single table which includes laboratory data and some demographic information.
+
+## EDA session organization
+
+Each exercise is structured as follows:
+
+1. There will be an explicit task
+2. You will use functions we have learned to complete the task
+3. You will be asked to answer a question-set based on your findings
+
+## Exercise 0
+
+Before we begin we have to load our library of functions that we'll be using. Since all of the necessary functions are included in the tidyverse family of packages, all we need to do is run the library() command on tidyverse.
+
+- Use the code block below to run `library()` on "tidyverse"
+
+```{r}
+library(tidyverse)
+```
+
+
+## Exercise 1
+
+So far so good. Now we need to get our data into the rstudio environment so that we can start poking at it. Relative to our current working directory the data is located in a subfolder called "data". The file is called "mimic.csv". 
+
+- In the code block below use the `read_csv()` function to read this data file into a new data frame called "mimic"
+- Take a look at the data frame. Use `summary()`. Press on the name of the data frame in the environment tab on the upper-right.
+
+**HINT** check out how we loaded the orders data set in the second and third lessons!
+
+```{r}
+mimic <- read_csv("data/mimic.csv")
+
+summary(mimic)
+```
+
+### Questions
+
+1. How many rows are in the data frame?
+2. How many columns are in the data frame?
+3. What does each row in the data frame represent?
+
+
+## Exercise 2
+
+I like to start my eda by testing my assumptions about what's inside of it. do my assumptions about what should be in a data set of test results pan out in this data set?
+
+- use `filter()` to find the NA values that are not NA in value
+
+```{r}
+mimic %>% 
+  filter(is.na(valuenum),
+         !is.na(value)) %>% 
+  select(panel_test, component, value,valuenum)
+  
+```
+
+
+## Exercise 3
+
+OK now that we've got a sense for the shape of the data let's figure out what's inside of it. When performing EDA this often involves looking at the distribution of data in each column. Perforce this is a little different depending on the data type in each column, continuous data, like numeric data, could be looked at with histograms, whereas categorical data, like character strings, may be best viewed with a summary table with counts. Let's start with the columns with character type data
+
+- In the code block below, use `group_by()` and `summarize()` to get a sense for the kinds of data in some of the columns with character data.
+- Use `n()` and `n_distinct` inside of the `summarize()` function to count the rows and distinct values in each group
+
+**HINT** check out how we used these functions in the third lesson.
+
+```{r}
+mimic %>% 
+  group_by(religion) %>% 
+  summarise(n=n_distinct(subject_id)) %>% arrange(desc(n))
+```
+
+### Questions
+
+1. How many distinct patients are in the data frame?
+2. How many different panel tests and components are in the data frame?
+3. What is the most common religion for patients in the data frame?
+
+
+
