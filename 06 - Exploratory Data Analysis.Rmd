@@ -56,22 +56,29 @@ summary(mimic)
 1. How many rows are in the data frame?
 2. How many columns are in the data frame?
 3. What does each row in the data frame represent?
+4. How many columns contain information about the patient's admission and how many relate to the test order?
+5. What is the difference between the "value" and "valuenum" columns?
 
 
 ## Exercise 2
 
-I like to start my eda by testing my assumptions about what's inside of it. do my assumptions about what should be in a data set of test results pan out in this data set?
+I like to start my EDA by testing my assumptions about the data set. The mimic data frame has results data for ICU patients. We will use some simple dplyr functions to better understand the patterns of data in the mimic data frame.
 
-- use `filter()` to find the NA values that are not NA in value
+- Use `filter()` to find the rows that have NA in the valuenum column.
+- Use `select()` to narrow down on just the "panel_test", "test_name", "component", "value" and "valuenum" columns.
+- Use `arrange()` to order the data frame by "value" and "component" columns
 
 ```{r}
 mimic %>% 
   filter(is.na(valuenum),
          !is.na(value)) %>% 
-  select(panel_test, component, value,valuenum)
+  select(panel_test, component, value,valuenum) %>%
+  arrange((value),component) %>% View
   
 ```
 
+1. What is the difference between the "value" and "valuenum" columns?
+2. What kind of result values in the data set appear in the "value" column but are NA in the "valuenum" column?
 
 ## Exercise 3
 
