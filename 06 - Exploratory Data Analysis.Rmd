@@ -160,19 +160,31 @@ mimic %>%
 4. *Challenge Question* What is the most commonly ordered test in the data set.
 
 
-
-
-
 ## Exercise 4
 
 OK, after having looked at some categorical variables and the distribution of NA's, let's have a look at some of the continous variables. In mimic we have the charttime, which is in a date time format, and we have the valuenum column. A very effective way to examine these kinds of data are with a histogram. Let's use our ggplotting skills to see what's going on in these columns
 
 - Use `ggplot()` to assess the distribution of **charttime** and **valuenum**
-- Use the color aesthetic to parse out the contribution of different category or fluid to the distribution of laboratory values
+- Try different scales to visualize the laboratory results
+- Use the fill aesthetic to parse out the contribution of different **category** or **fluid** values to the distribution of laboratory values
 
 ```{r}
-
+mimic %>% filter(category=="Chemistry"|category=="Hematology") %>% 
+ggplot()+
+  geom_histogram(aes(valuenum,fill=category))+
+  scale_x_log10()+
+  facet_wrap(~category, scales = "free_y")
 ```
+
+1. What do you notice about the pattern of **charttime**s and **valuenum**s in the data frame?
+2. Are there differences between the distribution of "Chemistry" and "Hematology" test **category**s?
+3. Are there outlier categories with only a few results?
+
+
+```{r}
+mimic %>% filter(category %in% c("HEMATOLOGY","CHEMISTRY"))
+```
+
 
 find the reference range
 
