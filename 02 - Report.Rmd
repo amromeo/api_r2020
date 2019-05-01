@@ -1,5 +1,5 @@
 ---
-title: "R Markdown for Reproducibility"
+title: "R Markdown for Reproducible Reporting"
 author: "Patrick Mathias"
 output:
   pdf_document: default
