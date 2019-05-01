@@ -101,8 +101,9 @@ ggplot(orders) +
 
 ## Your turn 5
 
-1. Plot the distribution of orders by week instead of by day.
-2. Plot the distribution of review times by day.
+1. Plot the distribution of review times by day.
+2. Plot the distribution of order reviews by week instead of by day.
+
 
 ```{r, eval = FALSE}
 
@@ -110,14 +111,22 @@ ggplot(orders) +
 
 ```{r}
 ggplot(orders) + 
-  geom_histogram(aes(x = order_time), binwidth = 7*24*60*60)
+  geom_histogram(aes(x = review_time), binwidth = 24*60*60)
 ```
 
 ```{r}
 ggplot(orders) + 
-  geom_histogram(aes(x = review_time), binwidth = 24*60*60)
+  geom_histogram(aes(x = order_time), binwidth = 7*24*60*60)
 ```
+
+
 
 ## Your turn 6
 
 Create a pdf of your lesson 2 markdown document using “Knit to pdf”
+
+
+## Your turn 7
+
+1. Create a new R Markdown document but select “Presentation” instead of “Document” from menu
+2. Select one of the HTML options and knit the document
