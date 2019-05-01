@@ -1,0 +1,66 @@
+---
+title: "Visualize Data"
+output: html_notebook
+---
+
+### Import Data
+
+Run the following code to import the practice data set. 
+
+```{r}
+library(tidyverse)
+library(readxl)
+orders <- read_excel("data/orders_data_set.xlsx")
+```
+
+### Your Turn 4
+
+Let's recreate the scatterplot of *result_time* vs *order_time*. 
+
+You will need to:
+
+1. Pick a data set: *orders*
+2. Choose a geom function: *geom_point()*
+3. Map aesthetic properties of the graph to variables of the data frame (in this case, the *order_time* variable should be on the x axis, and *result_time* should be on the y axis)
+
+Fill in the blanks and run the code to create the plot.
+
+(Hint: if you get stuck, take a look at the slide titled "ggplot()"!)
+
+```{r}
+ggplot(data = ______) +
+  ______(mapping = aes(______))
+```
+
+```{r}
+# Solution
+ggplot(data = orders) +
+  geom_point(mapping = aes(x = order_time, y = result_time))
+```
+
+Let's add some color, shall we?
+
+Copy and paste the previous code chunk and add the following aesthetic mapping: color = order_class_c_descr
+
+```{r, message = FALSE}
+# Solution
+ggplot(data = orders) +
+  geom_point(mapping = aes(x = order_time, 
+                           y = result_time, 
+                           color = order_class_c_descr))
+```
+
+What happens if you additionally map the *shape* aesthetic to order_class_c_descr? Copy and paste the previous code chunk below and additionally map shape = order_class_c_descr. 
+
+```{r, message = FALSE}
+# Solution
+ggplot(data = orders) +
+  geom_point(mapping = aes(x = order_time, 
+                           y = result_time, 
+                           color = order_class_c_descr,
+                           shape = order_class_c_descr))
+```
+
+Stop here.
+**********
+
