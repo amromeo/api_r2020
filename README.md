@@ -5,7 +5,7 @@ This introductory R workshop aims to teach participants with minimal programming
 - Instructors: 
   * Daniel Herman
   * [Stephan Kadauke](https://www.linkedin.com/in/skadauke/)
-  * Patrick Mathias
+  * [Patrick Mathias](https://www.linkedin.com/in/pcmathias/)
   * Amrom Obstfeld
   * Joseph Rudolf
  
