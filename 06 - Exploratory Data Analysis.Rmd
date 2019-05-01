@@ -203,9 +203,9 @@ We have some familiarity now with how our data looks. Let's now make some explor
 library(lubridate)
 mimic %>% 
   mutate(charthour = hour(charttime)) %>% 
+  filter(!category %in% c("HEMATOLOGY","CHEMISTRY")) %>% 
   distinct(curr_service,category,charttime,charthour,hadm_id,panel_test) %>% 
   ggplot(aes(x=charthour,fill=category))+
-  scale_fill_viridis_d()+
   geom_bar()+
   facet_wrap(~curr_service, scales = "free_y")
 ```
@@ -215,6 +215,73 @@ mimic %>%
 3. What service in this data frame does the most testing?
 4. Compare the use of different categories of tests by different services, which are the most alike, which are the most different?
 5. Examine the peak **charthour** per service, can you track the phlebotomy service through the ICUs?
+
+
+## Exercise 5
+
+We have a very basic sense for what the data in mimic looks like. Now let's see if we can answer some questions using this data. For the purposes of this exercise we'll keep the clinical aspects of the question simple. Do patients with sepsis have higher white blood cell counts than those without sepsis?
+
+- Examine the code below and execute the code block to create the mimic_sepsis data frame
+- Use a statistical test to see whether the average maximum WBC count is different amongst those with and without sepsis.
+- Make a plot which compares the maximum WBC counts for admissions with "SEPSIS" as the **diagnosis**. 
+
+```{r}
+mimic_sepsis<-mimic %>% 
+  filter(component == 'White Blood Cells',
+         !is.na(diagnosis)) %>% 
+  mutate(sepsis = ifelse(str_detect(diagnosis,"SEPSIS"),"septic","not septic")) %>%
+  group_by(hadm_id,sepsis) %>% 
+  summarize(hadm_max_wbc = max(valuenum, na.rm = T))
+
+t.test(mimic_sepsis$hadm_max_wbc~mimic_sepsis$sepsis)
+
+mimic_sepsis  %>% 
+  ggplot(aes(x=as.character(sepsis),y=hadm_max_wbc))+
+  geom_boxplot()
+  ylim(0,30)
+
+```
+
+1. Step through the analysis pipe line, what does each step do?
+2. Do maximum WBC counts differ amongst these two groups? Is this a clinically useful test for sepsis detection?
+3. *Challenge Question*: There seems to be several outliers amongst the "not septic" group. Examine what could be causing this. Does the model need to be refined?
+
+
+## Exercise 6
+
+
+```{r}
+mimic_dets<- mimic %>% 
+  group_by(subject_id,hadm_id) %>% 
+  summarize(admit = min(charttime),
+            discharge = max(charttime),
+            panels = n_distinct(charttime,test_name) ) %>% 
+  mutate(LOS = as.numeric(difftime(discharge,admit,units = "days")))
+
+mimic_dets<-mimic_dets %>% filter(!is.infinite(loglos))# mutate(loglos = log10(LOS),logpan = log10(panels))
+lm(loglos~logpan,data = mimic_dets) %>% summary
+```
+
+
+```{r}
+#%>% 
+  ggplot(aes(LOS,panels))+
+  geom_point()+
+  scale_x_log10()+
+  scale_y_log10()+
+  geom_smooth(method = "lm")
+
+mimic %>% filter(hadm_id==142345) %>% View
+```
+
+
+
+
+LOOK AT LOS USING MIN MAX
+LOOK AT TWO CBC IN A DAY
+lfts
+
+
 
 ```{r}
 mimic %>% filter(category %in% c("HEMATOLOGY","CHEMISTRY"))
