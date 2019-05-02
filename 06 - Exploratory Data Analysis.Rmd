@@ -39,7 +39,6 @@ Before we begin we have to load our library of functions that we'll be using. Si
 
 ```{r}
 library(tidyverse)
-library(tidylog)
 ```
 
 
@@ -65,29 +64,6 @@ summary(mimic)
 3. What does each row in the data frame represent?
 4. How many columns contain information about the patient's admission and how many relate to the test order?
 
-## Show and Tell 1
-
-An important part of EDA is knowing where you DON'T have data, that is where are the NA's in your data set. There are several packages in R that will help you answer this question as well as graph it for you, determine whether there are patterns to the missingess and lots more. Check out [naniar](https://github.com/njtierney/naniar) for one of the best out there. However, we can do a lot just with the tidyverse functions. 
-
-- Run this code block
-- There are three new functions
-- See if you can determine what they are doing by stepping through the pipeline (use your mouse to highlight just the beginning of the code and press CTRL + Enter or CMD + Enter to just execute the highlighted code)
-
-**HINT** remember from lesson 1 that you can type "?" before a function, execute it, and get a nifty help file in the lower right pane.
-
-```{r}
-mimic %>% 
-  mutate_all(is.na) %>% 
-  summarise_all(sum) %>% 
-  gather() %>% 
-  arrange(desc(value))
-```
-
-### Questions
-
-1. How do `mutate_all()` and `summarize_all()` differ from `mutate()` and `summarize()`, respectively?
-2. What does `gather()` do? How does the data frame look before it's been piped through, and after it's been piped through `gather()`?
-3. What patterns do you see in the "missingness" in each of the columns?
 
 
 ## Exercise 2
@@ -110,30 +86,7 @@ mimic %>%
 1. What is the difference between the "value" and "valuenum" columns?
 2. What kind of result values in the data set appear in the "value" column but are NA in the "valuenum" column?
 
-## Show and Tell 2
 
-Based on our findings from exercise 1 it's clear that we have data that might be considered numeric hidden in results that are coded as characters together with greater than (>) and less than signs (<). These most likely related to the upper and lower limits of the analytical  measurement range of laboratory instruments. If we are to perform statistics or vizualizations on this data we should consider how to integrate these. One possible solution is to remove the symbols and use the numeric results in future analyses. 
-
-- Run this code block
-- There are two new functions
-- See if you can determine what they are doing by stepping through the pipeline (use your mouse to highlight just the beginning of the code and press CTRL + Enter or CMD + Enter to just execute the highlighted code)
-
-**HINT** remember from lesson 1 that you can type "?" before a function, execute it, and get a nifty help file in the lower right pane.
-
-```{r}
-mimic %>% 
-  filter(str_detect(value,">|<")) %>% 
-  mutate(valuenum = ifelse(str_detect(value,">|<"),
-                        parse_number(value),
-                        valuenum)) %>% 
-  select(test_name,component, value, valuenum)
-```
-
-### Questions
-
-1. Based on the help page, and your understanding of what `filter()` does, how does `str_detect()` work?
-2. What does `parse_number()` do?
-3. What do you think `parse_number()` would do with a character string with non-numeric character in it such as "2.5" "2,500" and "2.5.66"?
 
 
 ## Exercise 3
@@ -189,6 +142,55 @@ mimic %>% filter(panel_test == 'CBC', component=='Hemoglobin',flag=='abnormal',v
 4. *Challenge Question* Can you estimate what the reference range is for the "Hemoglobin" **component**?
 
 
+## Show and Tell 1
+
+An important part of EDA is knowing where you DON'T have data, that is where are the NA's in your data set. There are several packages in R that will help you answer this question as well as graph it for you, determine whether there are patterns to the missingess and lots more. Check out [naniar](https://github.com/njtierney/naniar) for one of the best out there. However, we can do a lot just with the tidyverse functions. 
+
+- Run this code block
+- There are three new functions
+- See if you can determine what they are doing by stepping through the pipeline (use your mouse to highlight just the beginning of the code and press CTRL + Enter or CMD + Enter to just execute the highlighted code)
+
+**HINT** remember from lesson 1 that you can type "?" before a function, execute it, and get a nifty help file in the lower right pane.
+
+```{r}
+mimic %>% 
+  mutate_all(is.na) %>% 
+  summarise_all(sum) %>% 
+  arrange(desc(value))
+```
+
+### Questions
+
+1. How do `mutate_all()` and `summarize_all()` differ from `mutate()` and `summarize()`, respectively?
+2. What patterns do you see in the "missingness" in each of the columns?
+
+
+## Show and Tell 2
+
+Based on our findings from exercise 1 it's clear that we have data that might be considered numeric hidden in results that are coded as characters together with greater than (>) and less than signs (<). These most likely related to the upper and lower limits of the analytical  measurement range of laboratory instruments. If we are to perform statistics or vizualizations on this data we should consider how to integrate these. One possible solution is to remove the symbols and use the numeric results in future analyses. 
+
+- Run this code block
+- There are two new functions
+- See if you can determine what they are doing by stepping through the pipeline (use your mouse to highlight just the beginning of the code and press CTRL + Enter or CMD + Enter to just execute the highlighted code)
+
+**HINT** remember from lesson 1 that you can type "?" before a function, execute it, and get a nifty help file in the lower right pane.
+
+```{r}
+mimic %>% 
+  filter(str_detect(value,">|<")) %>% 
+  mutate(valuenum = ifelse(str_detect(value,">|<"),
+                        parse_number(value),
+                        valuenum)) %>% 
+  select(test_name,component, value, valuenum)
+```
+
+### Questions
+
+1. Based on the help page, and your understanding of what `filter()` does, how does `str_detect()` work?
+2. What does `parse_number()` do?
+3. What do you think `parse_number()` would do with a character string with non-numeric character in it such as "2.5" "2,500" and "2.5.66"?
+
+
 ## Show and Tell 3
 
 We have some familiarity now with how our data looks. Let's now make some exploratory graphics in which we include several columns/variables with which we can learn more about how laboratory testing works in this data set. We will load a new package called lubridate which does not automatically load with `library(tidyverse)`. Lubridate will provide a necessary function to further probe the mimic data frame.
@@ -217,7 +219,7 @@ mimic %>%
 5. Examine the peak **charthour** per service, can you track the phlebotomy service through the ICUs?
 
 
-## Exercise 5
+## Show and Tell 4
 
 We have a very basic sense for what the data in mimic looks like. Now let's see if we can answer some questions using this data. For the purposes of this exercise we'll keep the clinical aspects of the question simple. Do patients with sepsis have higher white blood cell counts than those without sepsis?
 
@@ -238,61 +240,9 @@ t.test(mimic_sepsis$hadm_max_wbc~mimic_sepsis$sepsis)
 mimic_sepsis  %>% 
   ggplot(aes(x=as.character(sepsis),y=hadm_max_wbc))+
   geom_boxplot()
-  ylim(0,30)
-
 ```
 
 1. Step through the analysis pipe line, what does each step do?
 2. Do maximum WBC counts differ amongst these two groups? Is this a clinically useful test for sepsis detection?
 3. *Challenge Question*: There seems to be several outliers amongst the "not septic" group. Examine what could be causing this. Does the model need to be refined?
-
-
-## Exercise 6
-
-
-```{r}
-mimic_dets<- mimic %>% 
-  group_by(subject_id,hadm_id) %>% 
-  summarize(admit = min(charttime),
-            discharge = max(charttime),
-            panels = n_distinct(charttime,test_name) ) %>% 
-  mutate(LOS = as.numeric(difftime(discharge,admit,units = "days")))
-
-mimic_dets<-mimic_dets %>% filter(!is.infinite(loglos))# mutate(loglos = log10(LOS),logpan = log10(panels))
-lm(loglos~logpan,data = mimic_dets) %>% summary
-```
-
-
-```{r}
-#%>% 
-  ggplot(aes(LOS,panels))+
-  geom_point()+
-  scale_x_log10()+
-  scale_y_log10()+
-  geom_smooth(method = "lm")
-
-mimic %>% filter(hadm_id==142345) %>% View
-```
-
-
-
-
-LOOK AT LOS USING MIN MAX
-LOOK AT TWO CBC IN A DAY
-lfts
-
-
-
-```{r}
-mimic %>% filter(category %in% c("HEMATOLOGY","CHEMISTRY"))
-```
-
-
-
-
-```{r}
-mimic %>% 
-  map_dbl(~sum(is.na(.)))
-```
-
 
