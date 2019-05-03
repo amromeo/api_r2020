@@ -38,7 +38,7 @@ Before we begin we have to load our library of functions that we'll be using. Si
 - Use the code block below to run `library()` on "tidyverse"
 
 ```{r}
-
+library(tidyverse)
 ```
 
 
@@ -52,7 +52,7 @@ So far so good. Now we need to get our data into the rstudio environment so that
 **HINT** check out how we loaded the menu/test_catalog data set in the second lesson!
 
 ```{r}
-
+mimic<-read_csv("/cloud/project/data/mimic.csv")
 ```
 
 ### Questions
@@ -74,7 +74,10 @@ Make one data pipeline and:
 - Use `arrange()` to order the data frame by "value" and "component" columns
 
 ```{r}
-
+mimic %>%
+  filter(is.na(valuenum)) %>%
+  select(panel_test, component,value, valuenum) %>%
+  arrange(value,component)
 ```
 
 1. What is the difference between the "value" and "valuenum" columns?
@@ -87,13 +90,15 @@ Make one data pipeline and:
 
 Performing EDA often begins by looking at the distribution of data in each column. This is a little different depending on the data type in each column. Continuous data, like numeric data, could be looked at with histograms, whereas categorical data, like character strings, may be best viewed with a summary table with counts. Let's start with the columns with character type data.
 
-- In the code block below, use `group_by()` and `summarize()` to get a sense for the kinds of data in some of the columns with character data.
+- In the code block below, use `group_by()` and `summarize()` to get a sense for the kinds of data in some of the columns with categorical data.
 - Use `n()` and `n_distinct` inside of the `summarize()` function to count the rows and distinct values in each group
 
 **HINT** check out how we used these functions in the fifth lesson.
 
 ```{r}
-
+mimic %>%
+  group_by(religion) %>%
+  summarise(d_pt =  n_distinct(subject_id))
 ```
 
 ### Questions
@@ -106,29 +111,21 @@ Performing EDA often begins by looking at the distribution of data in each colum
 
 ## Exercise 4
 
-OK, after having looked at some categorical variables and the distribution of NA's, let's have a look at some of the continous variables. In mimic we have the charttime, which is in a date time format, and we have the valuenum column. A very effective way to examine these kinds of data are with a histogram. Let's use our ggplotting skills to see what's going on in these columns
+OK, after having looked at some categorical variables, let's have a look at some of the continous variables. In mimic we have the charttime, which is in a date time format, and we have the valuenum column. A very effective way to examine these kinds of data are with a histogram. Let's use our ggplotting skills to see what's going on in these columns
 
 - Use `ggplot()` to assess the distribution of **charttime** and **valuenum**
 - Try different scales to visualize the laboratory results
-- Use the fill aesthetic to parse out the contribution of different **category** or **fluid** values to the distribution of laboratory values
+- Use the fill aesthetic to parse out the contribution of different categorical variables, such as **category** or **fluid** types, to the distribution of laboratory values
 
 ```{r}
-mimic %>% filter(category=="Chemistry"|category=="Hematology") %>% 
-ggplot()+
+ggplot(mimic)+
   geom_histogram(aes(valuenum,fill=category))+
   scale_x_log10()
-  facet_wrap(~category, scales = "free_y")
-mimic %>% count(panel_test) %>% top_n(10,n) %>% ggplot(aes(panel_test,n))+geom_bar(stat = 'identity')+labs(y="",x="")
-mimic %>% 
-  filter(panel_test == 'CBC', component=='Hemoglobin') %>% 
-  ggplot()+
-  geom_histogram(aes(valuenum, fill=flag),binwidth = .1)
-
-mimic %>% filter(panel_test == 'CBC', component=='Hemoglobin',flag=='abnormal',valuenum>12.5) %>% View
+  
 ```
 
 1. What do you notice about the pattern of **charttime**s and **valuenum**s in the data frame?
-2. Are there differences between the distribution of "Chemistry" and "Hematology" test **category**s?
+2. Are there differences between the distribution of results for "Chemistry" and "Hematology" test **category**s?
 3. Are there outlier categories with only a few results?
 4. *Challenge Question* Can you estimate what the reference range is for the "Hemoglobin" **component**?
 
@@ -210,37 +207,4 @@ mimic %>%
 5. Examine the peak **charthour** per service, can you track the phlebotomy service through the ICUs?
 
 
-## Show and Tell 4
-
-We have a very basic sense for what the data in mimic looks like. Now let's see if we can answer some questions using this data. For the purposes of this exercise we'll keep the clinical aspects of the question simple. Do patients with sepsis have higher white blood cell counts than those without sepsis?
-
-- Examine the code below and execute the code block to create the mimic_sepsis data frame
-- Use a statistical test to see whether the average maximum WBC count is different amongst those with and without sepsis.
-- Make a plot which compares the maximum WBC counts for admissions with "SEPSIS" as the **diagnosis**. 
-
-```{r}
-mimic_dets %>% 
-  ggplot(aes(LOS,panels))+
-  geom_point()+
-  scale_x_log10()+
-  scale_y_log10()
-
-
-mimic_sepsis<-mimic %>% 
-  filter(component == 'White Blood Cells',
-         !is.na(diagnosis)) %>% 
-  mutate(sepsis = ifelse(str_detect(diagnosis,"SEPSIS"),"septic","not septic")) %>%
-  group_by(hadm_id,sepsis) %>% 
-  summarize(hadm_max_wbc = max(valuenum, na.rm = T))
-
-t.test(mimic_sepsis$hadm_max_wbc~mimic_sepsis$sepsis)
-
-mimic_sepsis  %>% 
-  ggplot(aes(x=as.character(sepsis),y=hadm_max_wbc))+
-  geom_boxplot()
-```
-
-1. Step through the analysis pipe line, what does each step do?
-2. Do maximum WBC counts differ amongst these two groups? Is this a clinically useful test for sepsis detection?
-3. *Challenge Question*: There seems to be several outliers amongst the "not septic" group. Examine what could be causing this. Does the model need to be refined?
 
