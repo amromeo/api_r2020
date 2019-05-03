@@ -1,0 +1,202 @@
+---
+title: "06 - Exploratory Data Analysis"
+output: html_notebook
+---
+
+## Overview of Exploratory Data Analysis
+
+In this lesson we will gain more experience with some of the tools we have discussed through an EDA exercise. For many of the questions we will ask you to answer there is no right or wrong way to answer the question. However, this is an opportunity to further commit some of the new functions you have learned to memory.
+
+## Introduction to data set
+
+In this exercise we will be exploring a snippet of the MIMIC data set. MIMIC is an openly available dataset developed by the MIT Lab for Computational Physiology, comprising deidentified health data associated with ~40,000 critical care patients. It includes demographics, vital signs, laboratory tests, medications, and more. See this publication for additional information:
+
+> MIMIC-III, a freely accessible critical care database. Johnson AEW, Pollard TJ, Shen L, Lehman L, Feng M, Ghassemi M, Moody B, Szolovits P, Celi LA, and Mark RG. Scientific Data (2016). DOI: 10.1038/sdata.2016.35. Available at: http://www.nature.com/articles/sdata201635
+
+The subset that we will be exploring is a single table which includes laboratory data and some demographic information.
+
+Some important columns include:
+- subject_id: Unique patient identifier
+- hadm_id: Unique admission identifier
+- charttime: Time of specimen collection
+- curr_service: Name of service that sent the test
+- test_name: The full name of the panel test (e.g. cbC)
+and "component"
+
+## EDA session organization
+
+Each exercise is structured as follows:
+
+1. There will be an explicit task
+2. You will use functions we have learned to complete the task
+3. You will be asked to answer a question-set based on your findings
+
+## Exercise 0
+
+Before we begin we have to load our library of functions that we'll be using. Since all of the necessary functions are included in the tidyverse family of packages, all we need to do is run the library() command on tidyverse.
+
+- Use the code block below to run `library()` on "tidyverse"
+
+```{r}
+
+```
+
+
+## Exercise 1
+
+So far so good. Now we need to get our data into the rstudio environment so that we can start poking at it. Relative to our current working directory the data is located in a subfolder called "data". The file is called "mimic.csv". 
+
+- In the code block below use the `read_csv()` function to read this data file into a new data frame called "mimic"
+- Take a look at the data frame. Use `summary()`. Press on the name of the data frame in the environment tab on the upper-right.
+
+**HINT** check out how we loaded the menu/test_catalog data set in the second lesson!
+
+```{r}
+
+```
+
+### Questions
+
+1. How many rows are in the data frame?
+2. How many columns are in the data frame?
+3. What does each row in the data frame represent?
+4. How many columns contain information about the patient's admission and how many relate to the test order?
+
+
+
+## Exercise 2
+
+OK now that we've got a sense for the shape of the data let's figure out what's inside of it. I like to start by testing my assumptions about the data set. The mimic data frame has results data for ICU patients. We will use some simple dplyr functions to better understand the patterns of results data in the mimic data frame.
+
+Make one data pipeline and:
+- Use `filter()` to find the rows that have NA in the valuenum column.
+- Use `select()` to narrow down to just the "panel_test", "test_name", "component", "value" and "valuenum" columns.
+- Use `arrange()` to order the data frame by "value" and "component" columns
+
+```{r}
+
+```
+
+1. What is the difference between the "value" and "valuenum" columns?
+2. What kind of result values in the data set appear in the "value" column but are NA in the "valuenum" column?
+
+
+
+
+## Exercise 3
+
+Performing EDA often begins by looking at the distribution of data in each column. This is a little different depending on the data type in each column. Continuous data, like numeric data, could be looked at with histograms, whereas categorical data, like character strings, may be best viewed with a summary table with counts. Let's start with the columns with character type data.
+
+- In the code block below, use `group_by()` and `summarize()` to get a sense for the kinds of data in some of the columns with categorical data.
+- Use `n()` and `n_distinct` inside of the `summarize()` function to count the rows and distinct values in each group
+
+**HINT** check out how we used these functions in the fifth lesson.
+
+```{r}
+
+```
+
+### Questions
+
+1. How many distinct patients and admissions are in the data frame?
+2. How many different panel tests and components are in the data frame?
+3. What is the most common religion for patients in the data frame?
+4. *Challenge Question* What is the most commonly ordered test in the data set?
+
+
+## Exercise 4
+
+OK, after having looked at some categorical variables, let's have a look at some of the continous variables. In mimic we have the charttime, which is in a date time format, and we have the valuenum column. A very effective way to examine these kinds of data are with a histogram. Let's use our ggplotting skills to see what's going on in these columns
+
+- Use `ggplot()` to assess the distribution of **charttime** and **valuenum**
+- Try different scales to visualize the laboratory results
+- Use the fill aesthetic to parse out the contribution of different categorical variables, such as **category** or **fluid** types, to the distribution of laboratory values
+
+```{r}
+
+```
+
+1. What do you notice about the pattern of **charttime**s and **valuenum**s in the data frame?
+2. Are there differences between the distribution of results for "Chemistry" and "Hematology" test **category**s?
+3. Are there outlier categories with only a few results?
+4. *Challenge Question* Can you estimate what the reference range is for the "Hemoglobin" **component**?
+
+
+## Show and Tell 1
+
+An important part of EDA is knowing where you DON'T have data, that is where are the NA's in your data set. There are several packages in R that will help you answer this question as well as graph it for you, determine whether there are patterns to the missingess and lots more. Check out [naniar](https://github.com/njtierney/naniar) for one of the best out there. However, we can do a lot just with the tidyverse functions. 
+
+- Run this code block
+- There are three new functions
+- See if you can determine what they are doing by stepping through the pipeline (use your mouse to highlight just the beginning of the code and press CTRL + Enter or CMD + Enter to just execute the highlighted code)
+
+**HINT** remember from lesson 1 that you can type "?" before a function, execute it, and get a nifty help file in the lower right pane.
+
+```{r}
+mimic %>% 
+  mutate_all(is.na) %>% 
+  summarise_all(sum) %>% 
+  arrange(desc(value))
+```
+
+### Questions
+
+1. How do `mutate_all()` and `summarize_all()` differ from `mutate()` and `summarize()`, respectively?
+2. What patterns do you see in the "missingness" in each of the columns?
+
+
+## Show and Tell 2
+
+Based on our findings from exercise 1 it's clear that we have data that might be considered numeric hidden in results that are coded as characters together with greater than (>) and less than signs (<). These most likely related to the upper and lower limits of the analytical  measurement range of laboratory instruments. If we are to perform statistics or vizualizations on this data we should consider how to integrate these. One possible solution is to remove the symbols and use the numeric results in future analyses. 
+
+- Run this code block
+- There are two new functions
+- See if you can determine what they are doing by stepping through the pipeline (use your mouse to highlight just the beginning of the code and press CTRL + Enter or CMD + Enter to just execute the highlighted code)
+
+**HINT** remember from lesson 1 that you can type "?" before a function, execute it, and get a nifty help file in the lower right pane.
+
+```{r}
+mimic %>% 
+  filter(str_detect(value,">|<")) %>% 
+  mutate(valuenum = ifelse(str_detect(value,">|<"),
+                        parse_number(value),
+                        valuenum)) %>% 
+  select(test_name,component, value, valuenum)
+```
+
+### Questions
+
+1. Based on the help page, and your understanding of what `filter()` does, how does `str_detect()` work?
+2. What does `parse_number()` do?
+3. What do you think `parse_number()` would do with a character string with non-numeric character in it such as "2.5" "2,500" and "2.5.66"?
+
+
+## Show and Tell 3
+
+We have some familiarity now with how our data looks. Let's now make some exploratory graphics in which we include several columns/variables with which we can learn more about how laboratory testing works in this data set. We will load a new package called lubridate which does not automatically load with `library(tidyverse)`. Lubridate will provide a necessary function to further probe the mimic data frame.
+
+- Run this code block
+- There are two new functions
+- See if you can determine what they are doing by stepping through the pipeline (use your mouse to highlight just the beginning of the code and press CTRL + Enter or CMD + Enter to just execute the highlighted code)
+
+**HINT** remember to type "?" before a function, execute it, and get a nifty help file in the lower right pane.
+
+```{r}
+library(lubridate)
+mimic %>% 
+  mutate(charthour = hour(charttime)) %>% 
+  filter(!category %in% c("HEMATOLOGY","CHEMISTRY")) %>% 
+  distinct(curr_service,category,charttime,charthour,hadm_id,panel_test) %>% 
+  ggplot(aes(x=charthour,fill=category))+
+  geom_bar()+
+  facet_wrap(~curr_service, scales = "free_y")
+```
+
+1. The `hour()` function is part of the lubridate package, what do you think it does?
+2. The `distinct()` function is part of the dplyr package, what do you think it does? Why are we using it in this analysis?
+3. What service in this data frame does the most testing?
+4. Compare the use of different categories of tests by different services, which are the most alike, which are the most different?
+5. Examine the peak **charthour** per service, can you track the phlebotomy service through the ICUs?
+
+
+
