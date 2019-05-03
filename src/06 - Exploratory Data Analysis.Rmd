@@ -85,7 +85,7 @@ Make one data pipeline and:
 
 ## Exercise 3
 
-Performing EDA often begins by looking at the distribution of data in each column. Perforce this is a little different depending on the data type in each column. Continuous data, like numeric data, could be looked at with histograms, whereas categorical data, like character strings, may be best viewed with a summary table with counts. Let's start with the columns with character type data.
+Performing EDA often begins by looking at the distribution of data in each column. This is a little different depending on the data type in each column. Continuous data, like numeric data, could be looked at with histograms, whereas categorical data, like character strings, may be best viewed with a summary table with counts. Let's start with the columns with character type data.
 
 - In the code block below, use `group_by()` and `summarize()` to get a sense for the kinds of data in some of the columns with character data.
 - Use `n()` and `n_distinct` inside of the `summarize()` function to count the rows and distinct values in each group
