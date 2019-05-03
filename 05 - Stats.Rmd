@@ -1,0 +1,194 @@
+---
+title: "Transform Data"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+## Setup
+
+```{r setup}
+library(tidyverse) 
+library(readxl) 
+
+orders <- read_excel("data/orders_data_set.xlsx")
+```
+
+## Summarize
+
+```{r}
+orders %>%
+  select(order_id, patient_id) %>%
+  head(4) %>%
+	summarize(order_count = n(),
+	          pt_count    = n_distinct(patient_id)) 
+```
+
+## Your Turn 1
+
+Add onto the code in the above chunk to calculate:
+
+1) Mean count of orders per patient
+2) Mean count of orders per department
+
+*Hints:* 
+
+- Start by adding a new code block here (copy/paste above or CTRL-ALT-I).
+- Then copy code from the previous code block and edit to determine the mean number of orders per patient. 
+- Next, add code to calculate the mean count of orders per department. 
+- Assign the results to a new object, orders_1.
+
+```{r}
+# solution
+orders_1 <- orders %>%
+	summarize(order_count = n(),
+	          pt_count = n_distinct(patient_id),
+	          dept_count = n_distinct(department)) %>%
+	mutate(pt_order_count_mean = order_count / pt_count,
+         dept_order_count_mean = order_count / dept_count)
+```
+
+## Your Turn 2
+
+Use summarize() to calculate:
+
+1) The date of the first (or minimum) order
+2) The median time difference between order_time and result_time
+
+*Hint: Refer to help for NA handling*
+
+```{r}
+#solution
+orders %>% 
+	mutate(result_interval = result_time - order_time) %>%
+	summarize(order_time_min = min(order_time),
+		        order_time_first = first(order_time), # assumes sorted observations
+            result_interval_med = median(result_interval, na.rm = T))
+```
+
+## group_by
+
+```{r}
+orders %>% 
+  group_by(patient_id, department) %>%
+  head(4)
+```
+
+## group_by %>% summarize
+
+```{r}
+orders %>%
+	group_by(patient_id) %>%
+	summarize(order_count = n()) %>%
+	summarize(pt_order_count_mean = mean(order_count))
+```
+
+## Your Turn 4
+
+1) Calculate the median number of orders per patient
+2) Calculate the maximum number of TSH orders per patient
+3) The 5th and 95th percentile of the number of orders per patient
+
+```{r}
+# solution
+orders %>%
+	group_by(patient_id) %>%
+	summarize(pt_order_count = n()) %>%
+	summarize(pt_order_count_median = median(pt_order_count))
+```
+
+```{r}
+#solution
+orders %>%  
+	filter(proc_code == "TSH") %>%	
+	group_by(patient_id) %>%
+	summarize(pt_order_count = n()) %>%
+	summarize(pt_order_count_max = max(pt_order_count))
+```
+
+```{r}
+#solution
+orders %>%
+	group_by(patient_id) %>%
+	summarize(pt_order_count = n()) %>%
+	summarize(pt_order_count_q05 = quantile(pt_order_count, probs=0.05),  
+	          pt_order_count_q95 = quantile(pt_order_count, probs=0.95))
+```
+
+## Your Turn 5
+Calculate the mean order count per patient for each department
+
+*Hint: summarize() rolls up a single grouping variable at a time*
+
+```{r}
+#solution
+orders %>%	    
+	group_by(department, patient_id) %>%	    
+	summarize(order_count = n()) %>%    # summarize over department-patient_id groups
+	summarize(pt_order_count_mean = mean(order_count)) # summarize over department groups
+```
+
+## Compare two sets of count data
+
+- Is the distribution of the count of orders per patient different in the Internal Medicine and Family Medicine clinics?
+
+## Create sample distributions
+
+```{r}
+orders_per_pt_dept <- orders %>%	        
+				group_by(department, patient_id) %>%	        
+				summarize(order_count = n()) %>%     
+				ungroup() %>%        
+				filter(department %in% 
+					c("INTERNAL MEDICINE CLINIC", 
+						"FAMILY MEDICINE CLINIC"))
+head(orders_per_pt_dept)
+```
+
+## Visualize the distribution of order counts
+
+```{r}
+orders_per_pt_dept %>%
+	ggplot() +
+	geom_histogram(aes(x = order_count))
+```
+
+## Describe the central tendency of the order count
+
+```{r}
+orders_per_pt_dept %>% 
+		group_by(department) %>% 
+		summarize(order_count_median = median(order_count), 
+			        order_count_mean = mean(order_count))
+```
+
+## Compare the distributions of order counts
+
+```{r}
+wilcox.test(order_count ~ department, 
+            data        = orders_per_pt_dept, 
+            alternative = "two.sided", 
+            paired      = FALSE, 
+            conf.int    = TRUE)
+```
+
+## Your Turn 6
+
+Compare order counts across the nephrology, cardiology, and gastroenterology departments. Are they different?
+
+*Hint: Convert department to a factor using function factor()*
+
+```{r}
+#solution
+orders %>%	            
+	group_by(department, patient_id) %>%	            
+	summarize(order_count = n()) %>%     
+	ungroup() %>%    
+	filter(department %in% c("NEPHROLOGY CLINIC",
+	                         "CARDIOLOGY CLINIC",
+	                         "GASTROENTEROLOGY CLINIC")) %>%
+	mutate(department = factor(department)) %>%    
+	kruskal.test(order_count ~ department, 
+	             data = .)
+```
+
