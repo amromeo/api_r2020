@@ -10,7 +10,7 @@ editor_options:
 ```{r setup}
 library(tidyverse)  # Provides functions used throughout this session
 library(readxl) # Provides function for reading in excel workbooks
-orders <- read_excel("data/orders_data_set.xlsx")
+orders <- read_excel("/cloud/project/data/orders_data_set.xlsx")
 ```
 
 ## Orders
@@ -37,7 +37,7 @@ select(orders, c(1,4))
 2. Assign the result to orders_2
 
 ```{r}
-orders_2 <- select(orders, ________)
+orders_2 <- select(orders, order_status_c)
 orders_2
 ```
 
@@ -70,7 +70,7 @@ Modify the code in this block to find:
 
 1. Every order_id that is greater than 100000
 ```{r}
-orders_3a <- filter(orders, _________)
+orders_3a <- filter(orders, order_id>100000)
 orders_3a
 ```
 
@@ -78,12 +78,12 @@ After modifying the code above, copy and paste it into the next two code blocks,
 
 2. All of the orders where lab_status_c_descr is equal to "Final result" (assign this to orders_3b)
 ```{r}
-
+orders_3b <- filter(orders, lab_status_c_descr=="Final result")
 ```
 
 3. CHALLENGE: All of the orders where reason_for_canc_c_descr is not NA (assign this to orders_3c)
 ```{r}
-
+orders_3c <- filter(orders, !is.na(reason_for_canc_c_descr))
 ```
 
 ## Your turn 4
@@ -104,10 +104,20 @@ NOTE:
 * Assign the results of the filter functions to orders_4b and orders_4c, respectively. 
 
 ```{r}
-orders_4a <- filter(orders, ___________)
+orders_4a <- filter(orders, patient_id==510909, proc_code=='TSH')
 orders_4a
 ```
 
+```{r}
+orders_4b <- filter(orders, department %in% c("OB GYN CLINIC", "GERIATRIC CLINIC", "PEDIATRIC CLINICS"))
+orders_4b
+```
+
+```{r}
+orders_4c <- filter(orders, order_status_c_descr == "Canceled",
+                    pref_list_type %in% c("Clinic Preference List", "Provider Preference List"))
+orders_4c
+```
 
 ## Arrange
 
@@ -124,7 +134,7 @@ What order statuses appear in the top rows of the data frame?
 What type of order class appears in the first rows of the data frame? Based on the description column, to what type of lab test does this order class seem to relate to?
 
 ```{r}
-
+orders_5<-arrange(orders, order_status_c_descr, desc(order_class_c_descr))
 ```
 
 
@@ -152,9 +162,9 @@ CHALLENGE: Use your mouse to select the name of the new data frame from the list
 
 ```{r}
 orders_6 <- orders %>% 
-  filter() %>% 
-  select() %>% 
-  arrange()
+  filter(department == "BEHAVIORAL HEALTH CLINIC") %>% 
+  select(description, ordering_route, pref_list_type) %>% 
+  arrange(description, ordering_route)
 ```
 
 
@@ -175,7 +185,9 @@ The weekdays() function will return the weekday for any date.
 
 
 ```{r}
-
+orders_7 <- orders %>% 
+  mutate(ord_wkdy = weekdays(order_time)) %>% 
+  select(order_time,ord_wkdy)
 ```
 
 
