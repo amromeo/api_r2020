@@ -148,7 +148,7 @@ Use `%>%` to write a sequence of functions that:
 
 Assign the output to a new variable (orders_6).
 
-Use your mouse to select the name of the new data frame from the list of data sets in the upper-right pane of Rstudio. Do you notice any interesting test ordering patterns?
+CHALLENGE: Use your mouse to select the name of the new data frame from the list of data sets in the upper-right pane of Rstudio. Do you notice any interesting test ordering patterns?
 
 ```{r}
 orders_6 <- orders %>% 
@@ -179,13 +179,15 @@ The weekdays() function will return the weekday for any date.
 ```
 
 
-Replace a column with `mutate()`
+## Replace a column with `mutate()`
+
 ```{r}
 orders %>%
 	mutate(order_id = as.character(order_id))
 ```
 
-Conditionally replace values in a column with `mutate()`
+## Conditionally replace values in a column with `mutate()`
+
 ```{r}
 orders %>%
 	mutate(proc_code = ifelse(proc_code %in% c("CBC","CBD"), 
