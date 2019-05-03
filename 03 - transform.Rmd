@@ -1,0 +1,217 @@
+---
+title: "Transform Data"
+output: html_notebook
+editor_options: 
+  chunk_output_type: inline
+---
+
+## Your turn 1
+
+```{r setup}
+library(tidyverse)  # Provides functions used throughout this session
+library(readxl) # Provides function for reading in excel workbooks
+orders <- read_excel("/cloud/project/data/orders_data_set.xlsx")
+```
+
+## Orders
+
+```{r}
+orders
+```
+
+```{r}
+summary(orders)
+```
+
+
+## Select
+
+```{r}
+select(orders, description, department)
+select(orders, c(1,4))
+```
+
+## Your turn 2
+
+1. Alter the code to select just the `order_status_c` column.
+2. Assign the result to orders_2
+
+```{r}
+orders_2 <- select(orders, ________)
+orders_2
+```
+
+## Consider
+
+Which of these is NOT a way to remove the columns that represent status codes?
+
+```{r}
+select(orders, -ends_with("_c"))
+select(orders, -c(lab_status_c, order_status_c, reason_for_canc_c))
+select(orders, -c(6,8,10))
+select(orders, -contains("status"))
+```
+
+## Filter
+
+```{r}
+filter(orders, patient_id == 508061)
+```
+
+```{r}
+filter(orders, proc_code == "BMP")
+```
+
+## Your turn 3
+
+Use the 3 code blocks below, and `filter()`, to show how you would filter the `orders` dataset.
+
+Modify the code in this block to find:
+
+1. Every order_id that is greater than 100000
+```{r}
+orders_3a <- filter(orders, ________)
+orders_3a
+```
+
+After modifying the code above, copy and paste it into the next two code blocks, and alter it to show:
+
+2. All of the orders where lab_status_c_descr is equal to "Final result" (assign this to orders_3b)
+```{r}
+
+```
+
+3. CHALLENGE: All of the orders where reason_for_canc_c_descr is not NA (assign this to orders_3c)
+```{r}
+
+```
+
+## Your turn 4
+
+Write 3 filter() statements that use Boolean operators to return rows that contain:
+
+1. Orders for patient number 510909 with proc_code TSH 
+
+2. Orders for one of the following departments: OB GYN CLINIC, GERIATRIC CLINIC, or PEDIATRIC CLINICS
+
+3. CHALLENGE: Orders for tests that were canceled and originally chosen from a preference list (HINT: These are coded in the pref_list_type column as either "Clinic Preference List" or "Provider Preference List")
+
+NOTE: 
+
+* Use the following code block as a template for the first filter() statement. 
+* For each of the remaining two, either copy paste a new code block, or use the CTRL/CMD-ALT-I keyboard shortcut to make a new code block. 
+* Use the new code blocks for the next two filter() statements. 
+* Assign the results of the filter functions to orders_4b and orders_4c, respectively. 
+
+```{r}
+orders_4a <- filter(orders, _____)
+orders_4a
+```
+
+## Arrange
+
+```{r}
+arrange(orders, patient_id)
+```
+
+## Your turn 5
+
+1. Arrange orders by `order_status_c_descr` and assign the output orders_5. 
+What order statuses appear in the top rows of the data frame?
+
+2. Add `order_class_c_descr` as a second (tie breaking) column to arrange on, but order it in reverse alphabetical order. 
+What type of order class appears in the first rows of the data frame? Based on the description column, to what type of lab test does this order class seem to relate to?
+
+```{r}
+
+```
+
+
+## Steps and the pipe
+
+```{r}
+VITD <- orders %>%
+		 filter(description == "1,25 DIHYDROXY VITAMIN D") %>%
+		 select(department, ordering_route, pref_list_type) %>%
+		 arrange(department)
+VITD
+```
+
+## Your turn 6
+
+Use `%>%` to write a sequence of functions that: 
+
+1. Filters to orders coming from the `department` "BEHAVIORAL HEALTH CLINIC" (case-sensitive)
+2. Selects the `description`, `ordering_route`, and `pref_list_type` columns  
+3. Arrange the dataset by the `description` and `ordering_route` column.
+
+Assign the output to a new variable (orders_6).
+
+CHALLENGE: Use your mouse to select the name of the new data frame from the list of data sets in the upper-right pane of Rstudio. Do you notice any interesting test ordering patterns?
+
+```{r}
+orders_6 <- orders %>% 
+  filter() %>% 
+  select() %>% 
+  arrange()
+```
+
+
+## mutate
+
+```{r}
+orders %>%
+	mutate(coded_order_id = order_id/2)
+```
+
+## Your turn 7
+
+The weekdays() function will return the weekday for any date.
+
+1. Use the weekdays() function to make a new column which contains the day of the week that each order was placed.
+2. Then select this new column and the order_time column.
+3. Assign the result to a new variable orders_7
+
+
+```{r}
+
+```
+
+
+## Replace a column with `mutate()`
+
+```{r}
+orders %>%
+	mutate(order_id = as.character(order_id))
+```
+
+## Conditionally replace values in a column with `mutate()`
+
+```{r}
+orders %>%
+	mutate(proc_code = ifelse(proc_code %in% c("CBC","CBD"), 
+	                          "CBC", 
+	                          proc_code)) 
+```
+
+## Final Challenge
+
+The pref_list_type column has values of either "Clinic Preference List", "Provider Preference List", or "None".
+
+1. Conditionally replace these with "clinic", "provider", and NA, respectively.
+
+```{r}
+
+```
+
+
+# Take aways
+
+* Extract variables with `select()`  
+* Extract cases with `filter()`  
+* Arrange cases, with `arrange()`  
+
+* Make new variables, with `mutate()`  
+
+* Connect operations with `%>%`  
+
