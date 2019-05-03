@@ -20,6 +20,8 @@ Some important columns include:
 - hadm_id: Unique admission identifier
 - charttime: Time of specimen collection
 - curr_service: Name of service that sent the test
+- test_name: The full name of the panel test (e.g. cbC)
+and "component"
 
 ## EDA session organization
 
@@ -50,9 +52,7 @@ So far so good. Now we need to get our data into the rstudio environment so that
 **HINT** check out how we loaded the menu/test_catalog data set in the second lesson!
 
 ```{r}
-mimic <- read_csv("data/mimic.csv")
 
-summary(mimic)
 ```
 
 ### Questions
@@ -68,6 +68,7 @@ summary(mimic)
 
 OK now that we've got a sense for the shape of the data let's figure out what's inside of it. I like to start by testing my assumptions about the data set. The mimic data frame has results data for ICU patients. We will use some simple dplyr functions to better understand the patterns of results data in the mimic data frame.
 
+Make one data pipeline and:
 - Use `filter()` to find the rows that have NA in the valuenum column.
 - Use `select()` to narrow down to just the "panel_test", "test_name", "component", "value" and "valuenum" columns.
 - Use `arrange()` to order the data frame by "value" and "component" columns
@@ -89,13 +90,10 @@ Performing EDA often begins by looking at the distribution of data in each colum
 - In the code block below, use `group_by()` and `summarize()` to get a sense for the kinds of data in some of the columns with character data.
 - Use `n()` and `n_distinct` inside of the `summarize()` function to count the rows and distinct values in each group
 
-**HINT** check out how we used these functions in the third lesson.
+**HINT** check out how we used these functions in the fifth lesson.
 
 ```{r}
-mimic %>% 
-  group_by(curr_service) %>% 
-  summarise(n=n()) %>% 
-  arrange(desc(n))
+
 ```
 
 ### Questions
