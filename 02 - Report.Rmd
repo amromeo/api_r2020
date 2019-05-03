@@ -65,7 +65,7 @@ tabyl(orders, department, order_status_c_descr)
 ## Your Turn 4
 
 1. Which 3 departments ordered the highest number of labs using “Provider Preference Lists”? (pref_list_type variable)
-2. What happens if you add 3 variables to the function? Start out with variables we've already created tables for.
+2. What happens if you add another variable to the tabyl() function (3 variables total)? Start out with variables we've already created tables for.
 
 ```{r, eval = FALSE}
 
@@ -106,7 +106,10 @@ ggplot(orders) +
 
 
 ```{r, eval = FALSE}
-
+ggplot(orders) +
+  geom_histogram(aes(x = ), binwidth = 24*60*60)
+ggplot(orders) +
+  geom_histogram(aes(x = ), binwidth = )
 ```
 
 ```{r}
