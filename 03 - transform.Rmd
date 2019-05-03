@@ -142,7 +142,7 @@ VITD
 
 Use `%>%` to write a sequence of functions that: 
 
-1. Filters to orders coming from the department "BEHAVIORAL HEALTH CLINIC" (case-sensitive)
+1. Filters to orders coming from the `department` "BEHAVIORAL HEALTH CLINIC" (case-sensitive)
 2. Selects the `description`, `ordering_route`, and `pref_list_type` columns  
 3. Arrange the dataset by the `description` and `ordering_route` column.
 
@@ -152,6 +152,9 @@ Use your mouse to select the name of the new data frame from the list of data se
 
 ```{r}
 orders_6 <- orders %>% 
+  filter() %>% 
+  select() %>% 
+  arrange()
 ```
 
 
@@ -196,11 +199,10 @@ The pref_list_type column has values of either "Clinic Preference List", "Provid
 
 1. Conditionally replace these with "clinic", "provider", and NA, respectively.
 
-
 ```{r}
 orders %>% 
   mutate(pref_list_type = ifelse(pref_list_type=="None",NA,
-                                 ifelse(pref_list_type=="Clinic Preference List", "clinic",pref_list_type))) 
+                                 ifelse(pref_list_type=="Clinic Preference List", "clinic","provider"))) 
 ```
 
 

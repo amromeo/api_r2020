@@ -5,8 +5,6 @@ output: html_notebook
 
 ## Overview of Exploratory Data Analysis
 
-Exploratory data analysis (EDA) is a process used to gain better understanding of a data set. The goal is to gain familiarity with the shape and contents of the data. The approach often generates questions that can be further addressed through the use of statisical models and graphs. It is an iterative process that generally involves creating and exploring one or two dimensional summaries of the data that lead to the creation of additional summaries and ultimately an understanding of the data set. It also plays a role in data quality control, an important process by which the integrity of the data is evaluated prior to any decision-making or conclusions are made.
-
 In this lesson we will gain more experience with some of the tools we have discussed through an EDA exercise. For many of the questions we will ask you to answer there is no right or wrong way to answer the question. However, this is an opportunity to further commit some of the new functions you have learned to memory.
 
 ## Introduction to data set
@@ -38,7 +36,7 @@ Before we begin we have to load our library of functions that we'll be using. Si
 - Use the code block below to run `library()` on "tidyverse"
 
 ```{r}
-library(tidyverse)
+
 ```
 
 
@@ -68,19 +66,14 @@ summary(mimic)
 
 ## Exercise 2
 
-OK now that we've got a sense for the shape of the data let's figure out what's inside of it. I like to start by testing my assumptions about the data set. The mimic data frame has results data for ICU patients. We will use some simple dplyr functions to better understand the patterns of data in the mimic data frame.
+OK now that we've got a sense for the shape of the data let's figure out what's inside of it. I like to start by testing my assumptions about the data set. The mimic data frame has results data for ICU patients. We will use some simple dplyr functions to better understand the patterns of results data in the mimic data frame.
 
 - Use `filter()` to find the rows that have NA in the valuenum column.
-- Use `select()` to narrow down on just the "panel_test", "test_name", "component", "value" and "valuenum" columns.
+- Use `select()` to narrow down to just the "panel_test", "test_name", "component", "value" and "valuenum" columns.
 - Use `arrange()` to order the data frame by "value" and "component" columns
 
 ```{r}
-mimic %>% 
-  filter(is.na(valuenum),
-         !is.na(value)) %>% 
-  select(panel_test, component, value,valuenum) %>%
-  arrange((value),component) %>% View
-  
+
 ```
 
 1. What is the difference between the "value" and "valuenum" columns?
@@ -125,9 +118,9 @@ OK, after having looked at some categorical variables and the distribution of NA
 mimic %>% filter(category=="Chemistry"|category=="Hematology") %>% 
 ggplot()+
   geom_histogram(aes(valuenum,fill=category))+
-  scale_x_log10()+
+  scale_x_log10()
   facet_wrap(~category, scales = "free_y")
-
+mimic %>% count(panel_test) %>% top_n(10,n) %>% ggplot(aes(panel_test,n))+geom_bar(stat = 'identity')+labs(y="",x="")
 mimic %>% 
   filter(panel_test == 'CBC', component=='Hemoglobin') %>% 
   ggplot()+
@@ -228,6 +221,13 @@ We have a very basic sense for what the data in mimic looks like. Now let's see 
 - Make a plot which compares the maximum WBC counts for admissions with "SEPSIS" as the **diagnosis**. 
 
 ```{r}
+mimic_dets %>% 
+  ggplot(aes(LOS,panels))+
+  geom_point()+
+  scale_x_log10()+
+  scale_y_log10()
+
+
 mimic_sepsis<-mimic %>% 
   filter(component == 'White Blood Cells',
          !is.na(diagnosis)) %>% 
