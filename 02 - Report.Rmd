@@ -29,7 +29,7 @@ getwd()
 ## Load a file
 
 ```{r load_file, eval = FALSE}
-menu <- read_csv("data/test_catalog.csv")
+catalog <- read_csv("data/test_catalog.csv")
 ```
 
 What does RStudio tell you after you import the data?
