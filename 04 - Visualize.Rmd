@@ -39,12 +39,6 @@ ggplot(data = ______) +
   ______(mapping = aes(x = ______, y = ______))
 ```
 
-```{r}
-# Solution
-ggplot(data = orders) +
-  geom_point(mapping = aes(x = order_time, y = result_time))
-```
-
 
 
 
@@ -55,13 +49,6 @@ Copy and paste the previous code chunk and add the following aesthetic mapping:
     color = order_class_c_descr
 
 
-```{r, message = FALSE}
-# Solution
-ggplot(data = orders) +
-  geom_point(mapping = aes(x = order_time, 
-                           y = result_time, 
-                           color = order_class_c_descr))
-```
 
 
 
@@ -71,14 +58,6 @@ What happens if you additionally map the *shape* aesthetic to order_class_c_desc
     shape = order_class_c_descr
 
 
-```{r, message = FALSE}
-# Solution
-ggplot(data = orders) +
-  geom_point(mapping = aes(x = order_time, 
-                           y = result_time, 
-                           color = order_class_c_descr,
-                           shape = order_class_c_descr))
-```
 
 Stop here.
 
@@ -108,11 +87,6 @@ Now, with your partner, figure out how you would modify the code above so it dra
 
 ```
 
-```{r}
-# Solution
-ggplot(data = a1c) + 
-  geom_boxplot(mapping = aes(x = order_status_c_descr, y = order_to_result))
-```
 
 
 
@@ -122,11 +96,6 @@ With your partner, make a histogram of the order_to_result variable. Hint: do no
 
 ```
 
-```{r}
-# Solution
-ggplot(data = a1c) + 
-  geom_histogram(mapping = aes(x = order_to_result))
-```
 
 
 
