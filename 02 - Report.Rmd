@@ -41,7 +41,8 @@ What does RStudio tell you after you import the data?
 3. Summarize the data using the `summary()` function.
 
 ```{r, eval = FALSE}
-
+orders <- 
+summary( )
 ```
 
 ```{r}
@@ -68,7 +69,8 @@ tabyl(orders, department, order_status_c_descr)
 2. What happens if you add another variable to the tabyl() function (3 variables total)? Start out with variables we've already created tables for.
 
 ```{r, eval = FALSE}
-
+tablyl(orders, , )
+tablyl(orders, , )
 ```
 
 ```{r}
@@ -122,12 +124,9 @@ ggplot(orders) +
   geom_histogram(aes(x = order_time), binwidth = 7*24*60*60)
 ```
 
-
-
 ## Your turn 6
 
 Create a pdf of your lesson 2 markdown document using “Knit to pdf”
-
 
 ## Your turn 7
 
