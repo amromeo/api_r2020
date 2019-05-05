@@ -34,7 +34,7 @@ catalog <- read_csv("data/test_catalog.csv")
 
 What does RStudio tell you after you import the data?
 
-## Your Turn 3
+## Your Turn 4
 
 1. Locate and load the orders data set for the course from the data folder into an object (data frame) called "orders". 
 2. Within your Environment tab (top right), click the name of the object and review the raw data.
@@ -63,14 +63,14 @@ tabyl(orders, department)
 tabyl(orders, department, order_status_c_descr)
 ```
 
-## Your Turn 4
+## Your Turn 5
 
 1. Which 3 departments ordered the highest number of labs using “Provider Preference Lists”? (pref_list_type variable)
 2. What happens if you add another variable to the tabyl() function (3 variables total)? Start out with variables we've already created tables for.
 
 ```{r, eval = FALSE}
-tablyl(orders, , )
-tablyl(orders, , )
+tabyl(orders, , )
+tabyl(orders, , )
 ```
 
 ```{r}
@@ -101,7 +101,7 @@ ggplot(orders) +
   geom_histogram(aes(x = order_status_c_descr), stat = "count")
 ```
 
-## Your turn 5
+## Your turn 6
 
 1. Plot the distribution of review times by day.
 2. Plot the distribution of order reviews by week instead of by day.
@@ -124,11 +124,11 @@ ggplot(orders) +
   geom_histogram(aes(x = order_time), binwidth = 7*24*60*60)
 ```
 
-## Your turn 6
+## Your turn 7
 
 Create a pdf of your lesson 2 markdown document using “Knit to pdf”
 
-## Your turn 7
+## Your turn 8
 
 1. Create a new R Markdown document but select “Presentation” instead of “Document” from menu
 2. Select one of the HTML options and knit the document
