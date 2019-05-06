@@ -145,7 +145,6 @@ Compare order counts across the nephrology, cardiology, and gastroenterology dep
 *Hint: Convert department to a factor using function factor()*
 
 ```{r, eval=FALSE}
-#solution
 orders %>%
   mutate(department = factor(department)) %>%      # Convert department from character to factor
   filter(__________________________________) %>%
