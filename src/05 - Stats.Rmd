@@ -38,6 +38,22 @@ Add onto the code in the above chunk to calculate:
 - Next, add code to calculate the mean count of orders per department. 
 - Assign the results to new objects, orders_1 and orders_2.
  
+```{r}
+# solution
+orders_1 <- orders %>%
+	summarize(order_count = n(),
+	          pt_count = n_distinct(patient_id)) %>%
+  mutate(pt_order_count_mean = order_count / pt_count)
+```
+
+```{r}
+# solution
+orders_2 <- orders %>%
+	summarize(order_count = n(),
+	          dept_count = n_distinct(department)) %>%
+	mutate(dept_order_count_mean = order_count / dept_count)
+```
+
 
 ## Your Turn 2
 
@@ -53,11 +69,24 @@ orders %>%
 	summarize(______________)
 ```
 
+```{r}
+#solution
+orders %>% 
+	summarize(order_time_min = min(order_time))
+```
 
 ```{r, eval=FALSE}
 orders %>%
   mutate(result_interval = ______________) %>%
   summarize(result_interval_med = __________________________)
+```
+
+
+```{r}
+#solution
+orders %>% 
+	mutate(result_interval = result_time - order_time) %>%
+	summarize(result_interval_med = median(result_interval, na.rm = T))
 ```
 
 ## group_by
@@ -81,7 +110,33 @@ orders %>%
 
 1) Calculate the median number of orders per patient
 2) Calculate the maximum number of TSH orders per patient
-3) (*Bonus*) The 5th and 95th percentile of the number of orders per patients
+3) (*Bonus*) The 5th and 95th percentile of the number of orders per patient
+
+```{r}
+# solution
+orders %>%
+	group_by(patient_id) %>%
+	summarize(order_count = n()) %>%
+	summarize(pt_order_count_median = median(order_count))
+```
+
+```{r}
+#solution
+orders %>%  
+	filter(proc_code == "TSH") %>%	
+	group_by(patient_id) %>%
+	summarize(order_count = n()) %>%
+	summarize(pt_order_count_max = max(order_count))
+```
+
+```{r}
+#solution
+orders %>%
+	group_by(patient_id) %>%
+	summarize(order_count = n()) %>%
+	summarize(pt_order_count_q05 = quantile(order_count, probs=0.05),  
+	          pt_order_count_q95 = quantile(order_count, probs=0.95))
+```
 
 ## Your Turn 5
 Calculate the mean order count per patient for each department
@@ -93,6 +148,15 @@ orders %>%
   ________(______________) %>%
   summarize(_______________) %>%
   summarize(_______________________)
+```
+
+
+```{r}
+#solution
+orders %>%	    
+	group_by(department, patient_id) %>%	    
+	summarize(order_count = n()) %>%    # summarize over department-patient_id groups
+	summarize(pt_order_count_mean = mean(order_count)) # summarize over department groups
 ```
 
 ## Compare two sets of count data
@@ -152,8 +216,19 @@ orders %>%
   group_by(_________________) %>%
   summarize(_______________) %>%
   ungroup() %>%
-  ________(____________ ~ _____________, 
+  kruskal.test(____________ ~ _____________, 
 	             data = .)           # `.` refers to the data frame passed via the upstream pipe (%>%)
 ```
 
+```{r}
+#solution
+orders %>%
+  mutate(department = factor(department)) %>%     # Convert department from character to factor
+  filter(department %in% c("NEPHROLOGY CLINIC", "CARDIOLOGY CLINIC", "GASTROENTEROLOGY CLINIC")) %>%
+  group_by(department, patient_id) %>%
+  summarize(order_count = n()) %>%
+  ungroup() %>%
+  kruskal.test(order_count ~ department, 
+	             data = .)    # `.` refers to the data frame passed via the upstream pipe (%>%)
+```
 
