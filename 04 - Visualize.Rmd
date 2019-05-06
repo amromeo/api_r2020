@@ -106,11 +106,12 @@ When you run this code, you will most likely get what looks like an error:
 
 This is actually just a message from R, telling you that it's a bad idea to use a default bin width. 
 
-The order_to_result variable holds the time, in days, from when the order was placed to when the result was reported in the laboratory information system. What would be a reasonable binwidth for order_to_result? Discuss with your partner. Then fill in the code below:
+The order_to_result variable holds the time, in days, from when the order was placed to when the result was reported in the laboratory information system. What would be a reasonable binwidth for order_to_result? Discuss with your partner. 
+
+Then modify the code from the previous code block to add an appropriate *binwidth* argument to the *geom_histogram* function.
 
 ```{r}
-ggplot(data = ______) + 
-  geom_histogram(mapping = aes(x = ______), binwidth = ______)
+
 ```
 
 
