@@ -151,7 +151,7 @@ orders %>%
   group_by(_________________) %>%
   summarize(_______________) %>%
   ungroup() %>%
-  ________(____________ ~ _____________, 
+  kruskal.test(____________ ~ _____________, 
 	             data = .)           # `.` refers to the data frame passed via the upstream pipe (%>%)
 ```
 
