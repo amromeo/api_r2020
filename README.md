@@ -13,14 +13,14 @@ This introductory R workshop aims to teach participants with minimal programming
 ## Pre-course work/requirements
 
 - A laptop (macOS, Windows, or Linux) with WiFi
-  - Please confirm you can connect to the conference WiFi prior to class
-- Please complete the following survey so we can better understand your R experience and what you want out of the course: [API R Workshop Participant Survey](https://forms.gle/Xe3U71ZBZRmrP2E87)
-- The program that we will be using to interact with R during the course is called RStudio. We will be using a cloud based RStudio server, hosted at [RStudio.Cloud](https://rstudio.cloud/), in our workshop. Our intent in using a cloud-based platform to minimize possible in-class setup issues.
-- Please follow the instructions in [this presentation](https://bit.ly/2W61U4d) to setup an [RStudio.Cloud](https://rstudio.cloud/) account. 
-- Link to RStudio.Cloud workspace: https://rstudio.cloud/spaces/12199/join?access_code=VcxkICDzOe%2BTYiRcGyFY%2FnsSuS72jf7e3BgLWdm4
+- Preferably two monitors (or two laptops), one for the Zoom conference software, and one in which you will work.
+- The program that we will be using to interact with R during the course is called **RStudio**. We will be using a cloud based version of RStudio, hosted at [RStudio.Cloud](https://rstudio.cloud/), in our workshop. Our intent in using a cloud-based platform to minimize possible in-class setup issues.
+- Please follow the instructions in [this presentation](https://drive.google.com/file/d/1hlPMuN_drjwbX4idk_H2A7imPjWPhoSN/view?usp=sharing) to setup an [RStudio.Cloud](https://rstudio.cloud/) account. 
 - *Note: Some older internet browsers may not be compatible with RStudio.cloud. See [this web page](https://support.rstudio.com/hc/en-us/articles/227449447-Supported-browsers-for-RStudio-Connect) for additional information.*
 - As the date of the conference approaches, we will be sending out a web link that will grant access to the workshop project within RStudio.Cloud. 
 - While not required, we **highly** recommend installing RStudio Desktop on your laptop as well. See instructions below.
+- Please complete the following survey so we can better understand your R experience and what you want out of the course: [API R Workshop Participant Survey](https://forms.gle/Xe3U71ZBZRmrP2E87)
+
 
 ### Installing RStudio onto your own computer
 
@@ -41,10 +41,11 @@ There are multiple ways to access and interact with the course content, dependin
    * Note: As the course material will be periodically updated, please wait until the week prior to the conference to dowload the zip file
    * Unzip the file to a convenient location (your desktop or documents folder)
    * When you open RStudio, set this location as your working directory 
+   * If this all sounds too complicated - go back to option 1!
 
 ## The day of the workshop
 
-The workshop is scheduled to begin at 8 am sharp. In order to make sure that we can begin on schedule please make every effort to arrive 10 - 15 minutes early to allow time to get settled, get your laptop set up, and get RStudio up and running.
+The workshop is scheduled to begin at 1 pm ET. In order to make sure that we can begin on schedule please make every effort to log into the Zoom conference 10 - 15 minutes early to allow time to get settled, ensure your laptop is set up, and get RStudio up and running.
 
 ## Acknowledgments
 
