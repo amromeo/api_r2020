@@ -15,29 +15,29 @@ covid_testing <- read_csv("/cloud/project/data/covid_testing.csv")
 ## Orders
 
 ```{r}
-orders
+covid_testing
 ```
 
 ```{r}
-summary(orders)
+summary(covid_testing)
 ```
 
 
 ## Select
 
 ```{r}
-select(orders, description, department)
-select(orders, c(1,4))
+select(covid_testing, description, department)
+select(covid_testing, c(1,4))
 ```
 
 ## Your turn 2
 
 1. Alter the code to select just the `order_status_c` column.
-2. Assign the result to orders_2
+2. Assign the result to covid_testing_2
 
 ```{r}
-orders_2 <- select(orders, order_status_c)
-orders_2
+covid_testing_2 <- select(covid_testing, order_status_c)
+covid_testing_2
 ```
 
 ## Consider
@@ -45,44 +45,44 @@ orders_2
 Which of these is NOT a way to remove the columns that represent status codes?
 
 ```{r}
-select(orders, -ends_with("_c"))
-select(orders, -c(lab_status_c, order_status_c, reason_for_canc_c))
-select(orders, -c(6,8,10))
-select(orders, -contains("status"))
+select(covid_testing, -ends_with("_c"))
+select(covid_testing, -c(lab_status_c, order_status_c, reason_for_canc_c))
+select(covid_testing, -c(6,8,10))
+select(covid_testing, -contains("status"))
 ```
 
 ## Filter
 
 ```{r}
-filter(orders, patient_id == 508061)
+filter(covid_testing, patient_id == 508061)
 ```
 
 ```{r}
-filter(orders, proc_code == "BMP")
+filter(covid_testing, proc_code == "BMP")
 ```
 
 ## Your turn 3
 
-Use the 3 code blocks below, and `filter()`, to show how you would filter the `orders` dataset.
+Use the 3 code blocks below, and `filter()`, to show how you would filter the `covid_testing` dataset.
 
 Modify the code in this block to find:
 
 1. Every order_id that is greater than 100000
 ```{r}
-orders_3a <- filter(orders, order_id>100000)
-orders_3a
+covid_testing_3a <- filter(covid_testing, order_id>100000)
+covid_testing_3a
 ```
 
 After modifying the code above, copy and paste it into the next two code blocks, and alter it to show:
 
 2. All of the orders where lab_status_c_descr is equal to "Final result" (assign this to orders_3b)
 ```{r}
-orders_3b <- filter(orders, lab_status_c_descr=="Final result")
+covid_testing_3b <- filter(covid_testing, lab_status_c_descr=="Final result")
 ```
 
-3. CHALLENGE: All of the orders where reason_for_canc_c_descr is not NA (assign this to orders_3c)
+3. CHALLENGE: All of the orders where reason_for_canc_c_descr is not NA (assign this to covid_testing_3c)
 ```{r}
-orders_3c <- filter(orders, !is.na(reason_for_canc_c_descr))
+covid_testing_3c <- filter(covid_testing, !is.na(reason_for_canc_c_descr))
 ```
 
 ## Your turn 4
@@ -103,25 +103,25 @@ NOTE:
 * Assign the results of the filter functions to orders_4b and orders_4c, respectively. 
 
 ```{r}
-orders_4a <- filter(orders, patient_id==510909, proc_code=='TSH')
-orders_4a
+covid_testing_4a <- filter(covid_testing, patient_id==510909, proc_code=='TSH')
+covid_testing_4a
 ```
 
 ```{r}
-orders_4b <- filter(orders, department %in% c("OB GYN CLINIC", "GERIATRIC CLINIC", "PEDIATRIC CLINICS"))
-orders_4b
+covid_testing_4b <- filter(covid_testing, department %in% c("OB GYN CLINIC", "GERIATRIC CLINIC", "PEDIATRIC CLINICS"))
+covid_testing_4b
 ```
 
 ```{r}
-orders_4c <- filter(orders, order_status_c_descr == "Canceled",
+covid_testing_4c <- filter(covid_testing, order_status_c_descr == "Canceled",
                     pref_list_type %in% c("Clinic Preference List", "Provider Preference List"))
-orders_4c
+covid_testing_4c
 ```
 
 ## Arrange
 
 ```{r}
-arrange(orders, patient_id)
+arrange(covid_testing, patient_id)
 ```
 
 ## Your turn 5
@@ -133,14 +133,14 @@ What order statuses appear in the top rows of the data frame?
 What type of order class appears in the first rows of the data frame? Based on the description column, to what type of lab test does this order class seem to relate to?
 
 ```{r}
-orders_5<-arrange(orders, order_status_c_descr, desc(order_class_c_descr))
+covid_testing_5<-arrange(covid_testing, order_status_c_descr, desc(order_class_c_descr))
 ```
 
 
 ## Steps and the pipe
 
 ```{r}
-VITD <- orders %>%
+VITD <- covid_testing %>%
 		 filter(description == "1,25 DIHYDROXY VITAMIN D") %>%
 		 select(department, ordering_route, pref_list_type) %>%
 		 arrange(department)
@@ -155,12 +155,12 @@ Use `%>%` to write a sequence of functions that:
 2. Selects the `description`, `ordering_route`, and `pref_list_type` columns  
 3. Arrange the dataset by the `description` and `ordering_route` column.
 
-Assign the output to a new variable (orders_6).
+Assign the output to a new variable (covid_testing_6).
 
 CHALLENGE: Use your mouse to select the name of the new data frame from the list of data sets in the upper-right pane of Rstudio. Do you notice any interesting test ordering patterns?
 
 ```{r}
-orders_6 <- orders %>% 
+covid_testing_6 <- covid_testing %>% 
   filter(department == "BEHAVIORAL HEALTH CLINIC") %>% 
   select(description, ordering_route, pref_list_type) %>% 
   arrange(description, ordering_route)
@@ -170,7 +170,7 @@ orders_6 <- orders %>%
 ## mutate
 
 ```{r}
-orders %>%
+covid_testing %>%
 	mutate(coded_order_id = order_id/2)
 ```
 
@@ -180,11 +180,11 @@ The weekdays() function will return the weekday for any date.
 
 1. Use the weekdays() function to make a new column which contains the day of the week that each order was placed.
 2. Then select this new column and the order_time column.
-3. Assign the result to a new variable orders_7
+3. Assign the result to a new variable covid_testing_7
 
 
 ```{r}
-orders_7 <- orders %>% 
+covid_testing_7 <- covid_testing %>% 
   mutate(ord_wkdy = weekdays(order_time)) %>% 
   select(order_time,ord_wkdy)
 ```
@@ -193,14 +193,14 @@ orders_7 <- orders %>%
 ## Replace a column with `mutate()`
 
 ```{r}
-orders %>%
+covid_testing %>%
 	mutate(order_id = as.character(order_id))
 ```
 
 ## Conditionally replace values in a column with `mutate()`
 
 ```{r}
-orders %>%
+covid_testing %>%
 	mutate(proc_code = ifelse(proc_code %in% c("CBC","CBD"), 
 	                          "CBC", 
 	                          proc_code)) 
@@ -213,7 +213,7 @@ The pref_list_type column has values of either "Clinic Preference List", "Provid
 1. Conditionally replace these with "clinic", "provider", and NA, respectively.
 
 ```{r}
-orders %>% 
+covid_testing %>% 
   mutate(pref_list_type = ifelse(pref_list_type=="None",NA,
                                  ifelse(pref_list_type=="Clinic Preference List", "clinic","provider"))) 
 ```
