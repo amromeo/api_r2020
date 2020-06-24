@@ -2,12 +2,14 @@
 title: "Transform Data"
 ---
 
+# Import Data
+
 ## Your turn 1
 
 ```{r setup}
 library(tidyverse)  # Provides functions used throughout this session
 
-orders <- read_excel("/cloud/project/data/covid_testing.csv")
+covid_testing <- read_csv("/cloud/project/data/covid_testing.csv")
 ```
 
 ## Orders
