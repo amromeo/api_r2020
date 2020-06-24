@@ -5,7 +5,7 @@ title: "Transform Data"
 ```{r setup}
 library(tidyverse)
 
-# Toy datasets to use
+# Toy datasets t
 
 pollution <- tribble(
        ~city,   ~size, ~amount, 
