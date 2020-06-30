@@ -16,16 +16,16 @@ This introductory R workshop aims to teach participants with minimal programming
 - Preferably two monitors (or two laptops), one for the Zoom conference software, and one in which you will work.
 - We will be utilizing Zoom Meeting for this workshop, please download and install the latest version [here](https://zoom.us/download)
 - The program that we will be using to interact with R during the course is called **RStudio**. We will be using a cloud based version of RStudio, hosted at [RStudio.Cloud](https://rstudio.cloud/), in our workshop.
-- Please follow the instructions in [this presentation](https://drive.google.com/file/d/1hlPMuN_drjwbX4idk_H2A7imPjWPhoSN/view?usp=sharing) to setup an [RStudio.Cloud](https://rstudio.cloud/) account. 
-- *Note: Some older internet browsers may not be compatible with RStudio.cloud. See [this web page](https://support.rstudio.com/hc/en-us/articles/227449447-Supported-browsers-for-RStudio-Connect) for additional information.*
-- As the date of the conference approaches, we will be sending out a web link that will grant access to the workshop project within RStudio.Cloud. 
-- While not required, we **highly** recommend installing RStudio Desktop on your laptop as well. See instructions below.
+  - Please follow the instructions in [this presentation](https://drive.google.com/file/d/1hlPMuN_drjwbX4idk_H2A7imPjWPhoSN/view?usp=sharing) to setup an [RStudio.Cloud](https://rstudio.cloud/) account. 
+  - *Note: Some older internet browsers may not be compatible with RStudio.cloud. See [this web page](https://support.rstudio.com/hc/en-us/articles/227449447-Supported-browsers-for-RStudio-Connect) for additional information.*
+  - As the date of the conference approaches, we will be sending out a web link that will grant access to the workshop project within RStudio.Cloud. 
+- While not required, we **highly** recommend installing RStudio Desktop on your laptop as well. See instructions below. While we won't be using it during the workshop, you'll need it for future R work.
 - Please complete the following survey so we can better understand your R experience and what you want out of the course: [API R Workshop Participant Survey](https://forms.gle/Xe3U71ZBZRmrP2E87)**Need to update
 
 
 ### Installing RStudio onto your own computer
 
-Working with our cloud based RStudio instance will be the most straightforward way to proceed through the workshop. However, in the long term, you will need R and RStudio installed on your own computer in order to work on private or PHI containing data. You can find a video with step by step instructions for installing on Mac or PC by following the links below:
+We will be utilizing our cloud based RStudio instance in the workshop. However, in the long term, you will need R and RStudio installed on your own computer in order to work on private or PHI containing data. You can find a video with step by step instructions for installing on Mac or PC by following the links below:
 
 - [macOS Video](https://www.youtube.com/watch?v=GM88tYlEy_g) 
 - [Windows Video](https://www.youtube.com/watch?v=JRKmZK5-6aE)
@@ -36,13 +36,9 @@ Please complete each step in the video in turn including the final step, install
 
 There are multiple ways to access and interact with the course content, depending on whether you choose to proceed through the workshop using the cloud based RStudio or one on your own laptop. 
 
-1. If you choose to use the the cloud based RStudio instance, all the course content will be pre-loaded. 
-2. If you would prefer to run RStudio on your own computer:
-   * Download the course material from the course github [repository](https://github.com/amromeo/api_r2019) as a \*.zip file from [here](https://github.com/amromeo/api_r2019/archive/master.zip) 
+1. All the course content will be pre-loaded in the RStudio Cloud instance and is available for download as a .zip file.
+2. The content is available at our course github [repository](https://github.com/amromeo/api_r2020) and can be downloaded from there as well.
    * Note: As the course material will be periodically updated, please wait until the week prior to the conference to dowload the zip file
-   * Unzip the file to a convenient location (your desktop or documents folder)
-   * When you open RStudio, set this location as your working directory 
-   * If this all sounds too complicated - go back to option 1!
 
 ## A note on the mechanics and etiquette of the virtual workshop
 Please note that this is first virtual R workshop that our team is hosting, we are preparing extensively to ensure that the workshop is productive for you, however some technical challenges are to be expected
