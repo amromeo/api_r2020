@@ -12,7 +12,7 @@ This introductory R workshop aims to teach participants with minimal programming
 
 ## Pre-course work/requirements
 
-- A laptop (macOS, Windows, or Linux) with WiFi
+- A computer (macOS, Windows, or Linux) with WiFi
 - Preferably two monitors (or two laptops), one for the Zoom conference software, and one in which you will work.
 - We will be utilizing Zoom Meeting for this workshop, please download and install the latest version [here](https://zoom.us/download)
 - The program that we will be using to interact with R during the course is called **RStudio**. We will be using a cloud based version of RStudio, hosted at [RStudio.Cloud](https://rstudio.cloud/), in our workshop.
@@ -43,18 +43,14 @@ There are multiple ways to access and interact with the course content, dependin
 ## A note on the mechanics and etiquette of the virtual workshop
 Please note that this is first virtual R workshop that our team is hosting, we are preparing extensively to ensure that the workshop is productive for you, however some technical challenges are to be expected
 * The workshop's platform will be Zoom Meeting.
-* Please refrain from screen grabbing other users information or from recording the workshop.
+* Expect an email from API approximately 1 week prior to the workshop which will contain a link to the Zoom conference from which we will be hosting the workshop
+* Please refrain from screen grabbing other user's information, recording the workshop, or otherwise disrupting the flow of the Zoom Meeting.
 * The workshop will be recorded in its entirety
 * All 5 instructors will have the role of moderator during the workshop, 1 will be presenting while the other 4 field questions.
-* 
-
-## Prior to the workshop
-* Expect an email from API approximately 1 week prior to the workshop
-* This will contain a link to the Zoom conference from which we will be hosting the workshop
-
+ 
 ## The day of the workshop
 
-The workshop is scheduled to begin at 1 pm ET. In order to make sure that we can begin on schedule please make every effort to log into the Zoom conference 10 - 15 minutes early to allow time to get settled, ensure your laptop is set up, and get RStudio up and running.
+The workshop is scheduled to begin at 1 pm ET. In order to make sure that we can begin on schedule please make every effort to log into the Zoom conference 10 - 15 minutes early to allow time to get settled, ensure your computer audio and video is set up, and get RStudio cloud up and running.
 
 ## Acknowledgments
 
