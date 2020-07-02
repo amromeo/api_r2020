@@ -43,10 +43,10 @@ There are multiple ways to access and interact with the course content, dependin
 ## A note on the mechanics and etiquette of the virtual workshop
 Please note that this is first virtual R workshop that our team is hosting, we are preparing extensively to ensure that the workshop is productive for you, however some technical challenges are to be expected
 * The workshop's platform will be Zoom Meeting.
-* Expect an email from API approximately 1 week prior to the workshop which will contain a link to the Zoom conference from which we will be hosting the workshop
+* Expect an email from API approximately prior to the workshop which will contain a link to the Zoom conference from which we will be hosting the workshop.
 * Please refrain from screen grabbing other user's information, recording the workshop, or otherwise disrupting the flow of the Zoom Meeting.
-* The workshop will be recorded in its entirety
-* All 5 instructors will have the role of moderator during the workshop, 1 will be presenting while the other 4 field questions.
+* The workshop will be recorded in its entirety.
+* Microphones will be muted during workshop main sessions but during breakout exercises you will be asked to collaboratively interact with your colleagues and an instructor.
  
 ## The day of the workshop
 
