@@ -19,7 +19,7 @@ How can you confirm that you have successfully loaded the data file into Rstudio
 	3. The `covid_testing` object is present in the environment pane
 	4. All of the above
 
-## Select
+## select()
 
 ```{r}
 select(covid_testing, mrn, last_name)
@@ -30,78 +30,55 @@ select(covid_testing, c(1,3))
 
 1. Alter the code to select just the `first_name` column.
 2. Assign the result to covid_testing_2
+3. If you have time, see if you can use a
 
-```{r}
-# Remove the "_______" and replace it with 
+```{r Your Turn 2}
+# Remove the "_______" and replace it with your answer
 covid_testing_2 <- select(covid_testing, ________)
 ```
 
-## Consider
+## Your Turn 3
 
-Which of these is NOT a way to remove the columns that represent status codes?
+The turnaround time metrics are found in columns 16 and 17 and are labeled `col_rec_tat` and `rec_var_tat`. Which of these could you use to remove these columns?
 
-```{r}
-select(covid_testing, -ends_with("_c"))
-select(covid_testing, -c(lab_status_c, order_status_c, reason_for_canc_c))
-select(covid_testing, -c(6,8,10))
-select(covid_testing, -contains("status"))
+```{r Your Turn 3}
+select(covid_testing, -16,-17)
+select(covid_testing, -col_rec_tat, -rec_ver_tat)
+select(covid_testing, -contains("tat"))
+#all of the above
 ```
 
-## filter
+## filter()
 
 ```{r}
-filter(covid_testing, patient_id == 508061)
+filter(covid_testing, mrn == 5000078)
 ```
 
 ```{r}
-filter(covid_testing, proc_code == "BMP")
+filter(covid_testing, last_name=="stark")
 ```
 
-## Your turn 3
+## Your turn 4
 
 Use the 3 code blocks below, and `filter()`, to show how you would filter the `covid_testing` dataset.
 
 Modify the code in this block to find:
 
-1. Every order_id that is greater than 100000
-```{r}
-covid_testing_3a <- filter(covid_testing, ________)
-covid_testing_3a
+1. Every test for patients over age 80
+```{r covid_testing_4a}
+filter(covid_testing, ________)
 ```
 
-After modifying the code above, copy and paste it into the next two code blocks, and alter it to show:
-
-2. All of the covid_testing where lab_status_c_descr is equal to "Final result" (assign this to covid_testing_3b)
-```{r}
+2. All of the covid testing where the demographic group (demo_group) is equal to "client"
+```{r covid_testing_4b}
 
 ```
 
-3. CHALLENGE: All of the covid_testing where reason_for_canc_c_descr is not NA (assign this to covid_testing_3c)
-```{r}
+3. CHALLENGE: All of the covid testing where the patient class (patient_class) is NA [Hint: See slide titled "Logical Tests"]
+```{r covid_testing_4c}
 
 ```
 
-## Your turn 4
-
-Write 3 filter() statements that use Boolean operators to return rows that contain:
-
-1. covid_testing for patient number 510909 with proc_code TSH 
-
-2. covid_testing for one of the following departments: OB GYN CLINIC, GERIATRIC CLINIC, or PEDIATRIC CLINICS
-
-3. CHALLENGE: covid_testing for tests that were canceled and originally chosen from a preference list (HINT: These are coded in the pref_list_type column as either "Clinic Preference List" or "Provider Preference List")
-
-NOTE: 
-
-* Use the following code block as a template for the first filter() statement. 
-* For each of the remaining two, either copy paste a new code block, or use the CTRL/CMD-ALT-I keyboard shortcut to make a new code block. 
-* Use the new code blocks for the next two filter() statements. 
-* Assign the results of the filter functions to covid_testing_4b and covid_testing_4c, respectively. 
-
-```{r}
-covid_testing_4a <- filter(covid_testing, _____)
-covid_testing_4a
-```
 
 ## Arrange
 
