@@ -12,7 +12,6 @@ This introductory R workshop aims to teach participants with minimal programming
 
 ## Pre-course work/requirements
 
-- A computer (macOS, Windows, or Linux) with WiFi.
 - Preferably two monitors (or two laptops), one for the Zoom conference software, and one in which you will work.
 - We will be utilizing Zoom Meeting for this workshop, please download and install the latest version [here](https://zoom.us/download).
 - The program that we will be using to interact with R during the course is called **RStudio**. We will be using a cloud based version of RStudio, hosted at [RStudio.Cloud](https://rstudio.cloud/), in our workshop.
