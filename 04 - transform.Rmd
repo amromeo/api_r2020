@@ -19,9 +19,12 @@ How can you confirm that you have successfully loaded the data file into Rstudio
 	3. The `covid_testing` object is present in the environment pane
 	4. All of the above
 
+
+
+
 ## select()
 
-```{r}
+```{r select}
 select(covid_testing, mrn, last_name)
 select(covid_testing, c(1,3))
 ```
@@ -29,17 +32,16 @@ select(covid_testing, c(1,3))
 ## Your turn 2
 
 1. Alter the code to select just the `first_name` column.
-2. Assign the result to covid_testing_2
-3. If you have time, see if you can use a
+2. If you have time, see if you can select `first_name` using a numeric index
 
 ```{r Your Turn 2}
 # Remove the "_______" and replace it with your answer
-covid_testing_2 <- select(covid_testing, ________)
+select(covid_testing, ________)
 ```
 
 ## Your Turn 3
 
-The turnaround time metrics are found in columns 16 and 17 and are labeled `col_rec_tat` and `rec_var_tat`. Which of these could you use to remove these columns?
+The turnaround time metrics are found in columns 16 and 17 and are labeled `col_rec_tat` and `rec_var_tat`. Which of the following code snippets could you use to remove these columns?
 
 ```{r Your Turn 3}
 select(covid_testing, -16,-17)
@@ -47,6 +49,11 @@ select(covid_testing, -col_rec_tat, -rec_ver_tat)
 select(covid_testing, -contains("tat"))
 #all of the above
 ```
+
+
+
+# line 55
+
 
 ## filter()
 
@@ -65,87 +72,111 @@ Use the 3 code blocks below, and `filter()`, to show how you would filter the `c
 Modify the code in this block to find:
 
 1. Every test for patients over age 80
-```{r covid_testing_4a}
+```{r Your Turn 4a}
 filter(covid_testing, ________)
 ```
 
 2. All of the covid testing where the demographic group (demo_group) is equal to "client"
-```{r covid_testing_4b}
+```{r Your Turn 4b}
 
 ```
 
 3. CHALLENGE: All of the covid testing where the patient class (patient_class) is NA [Hint: See slide titled "Logical Tests"]
-```{r covid_testing_4c}
+```{r Your Turn 4c}
 
 ```
+
+
+# line 90
+
 
 
 ## Arrange
 
-```{r}
+```{r arrange}
 arrange(covid_testing, patient_id)
 ```
 
-## Your turn 5
+## Your Turn 5
+The column `ct_result` contains the cycle threshold (Ct) for the real-time PCR that generated the final result.
 
-1. Arrange covid_testing by `order_status_c_descr` and assign the output covid_testing_5. 
-What order statuses appear in the top rows of the data frame?
+How might you use arrange() to determine the highest and lowest Ct result in the dataset? 
 
-2. Add `order_class_c_descr` as a second (tie breaking) column to arrange on, but order it in reverse alphabetical order. 
-What type of order class appears in the first rows of the data frame? Based on the description column, to what type of lab test does this order class seem to relate to?
-
-```{r}
-
+```{r Your Turn 5}
+arrange(covid_testing, __________)
 ```
 
 
+## Pop Quiz
+
+```{r pop quiz}
+toy_data <- data.frame(nums=c(20,100,3),chars=c("20","100","3"))
+arrange(toy_data,nums)
+arrange(toy_data,chars)
+```
+
+
+
+# line 120
+
 ## Steps and the pipe
 
-```{r}
-VITD <- covid_testing %>%
-		 filter(description == "1,25 DIHYDROXY VITAMIN D") %>%
-		 select(department, ordering_route, pref_list_type) %>%
-		 arrange(department)
-VITD
+```{r Steps and the pipe}
+
+day_10 <- filter(covid_testing, pan_day <= 10)
+day_10 <- select(day_10, clinic_name)
+day_10 <- arrange(day_10 , clinic_name)
+
+# vs
+
+covid_testing %>% 
+  filter(pan_day <= 10) %>% 
+  select(clinic_name) %>% 
+  arrange(clinic_name)
 ```
 
 ## Your turn 6
 
 Use `%>%` to write a sequence of functions that: 
 
-1. Filters to covid_testing coming from the `department` "BEHAVIORAL HEALTH CLINIC" (case-sensitive)
-2. Selects the `description`, `ordering_route`, and `pref_list_type` columns  
-3. Arrange the dataset by the `description` and `ordering_route` column.
+1. Filters to tests not from the clinic (`clinic_name`) of "picu"
 
-Assign the output to a new variable (covid_testing_6).
+2. Selects the column with the receive to verify turnaround time (`rec_ver_tat`) as well as the day from start of the pandemic (`pan_day`)
 
-CHALLENGE: Use your mouse to select the name of the new data frame from the list of data sets in the upper-right pane of Rstudio. Do you notice any interesting test ordering patterns?
+3. Arrange the `pan_day` from highest to lowest
 
-```{r}
-covid_testing_6 <- covid_testing %>% 
+Using <-, assign the result to a new variable, call it whatever you want.
+
+CHALLENGE: Use your mouse to select the name of the new data frame from the list of data sets in the upper-right pane of Rstudio. What is the typical TAT for the PICU?
+
+```{r Your Turn 6}
+covid_testing %>% 
   filter() %>% 
   select() %>% 
   arrange()
 ```
 
 
+
+
+
+
+
+- line 165
+
 ## mutate
 
 ```{r}
 covid_testing %>%
-	mutate(coded_order_id = order_id/2)
+	mutate(total_tat = col_rec_tat*60)
 ```
 
 ## Your turn 7
 
-The weekdays() function will return the weekday for any date.
+Create a new column using the mutate() function that contains the total TAT. 
+Hint: The total TAT is the sum of `col_rec_tat` and `rec_ver_tat`
 
-1. Use the weekdays() function to make a new column which contains the day of the week that each order was placed.
-2. Then select this new column and the order_time column.
-3. Assign the result to a new variable covid_testing_7
-
-
-```{r}
+```{r Your Turn 7}
 
 ```
 
@@ -154,26 +185,7 @@ The weekdays() function will return the weekday for any date.
 
 ```{r}
 covid_testing %>%
-	mutate(order_id = as.character(order_id))
-```
-
-## Conditionally replace values in a column with `mutate()`
-
-```{r}
-covid_testing %>%
-	mutate(proc_code = ifelse(proc_code %in% c("CBC","CBD"), 
-	                          "CBC", 
-	                          proc_code)) 
-```
-
-## Final Challenge
-
-The pref_list_type column has values of either "Clinic Preference List", "Provider Preference List", or "None".
-
-1. Conditionally replace these with "clinic", "provider", and NA, respectively.
-
-```{r}
-
+	mutate(mrn = as.character(mrn))
 ```
 
 
@@ -182,8 +194,6 @@ The pref_list_type column has values of either "Clinic Preference List", "Provid
 * Extract variables with `select()`  
 * Extract cases with `filter()`  
 * Arrange cases, with `arrange()`  
-
 * Make new variables, with `mutate()`  
-
 * Connect operations with `%>%`  
 

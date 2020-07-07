@@ -1,5 +1,5 @@
 ---
-title: "Summarization and statistics in R"
+title: "Statistical Analysis in R"
 output: html_notebook
 editor_options: 
   chunk_output_type: inline
@@ -8,151 +8,280 @@ editor_options:
 ## Setup
 
 ```{r setup}
-library(tidyverse) 
-library(readxl) 
+library(tidyverse)  # Provides functions used throughout this session
+library(magrittr)   # %<>%
+library(patchwork)  # Combine multiple plots together
+library(broom)      # tidy statistics functions
+library(yardstick)
 
-orders <- read_excel("data/orders_data_set.xlsx")
+covid_testing <- read_csv("data/covid_testing.csv")
+
+# remove pre-pandemic testing
+covid_testing <- covid_testing %>%
+  filter(pan_day >= 0)
 ```
 
 ## Summarize
 
+### How many tests are performed per day?
 ```{r}
-orders %>%
-  select(order_id, patient_id) %>%
+ggplot(data = covid_testing) +
+  geom_histogram(aes(x = pan_day), binwidth = 1)
+```
+
+
+```{r}
+covid_testing %>%
+  select(mrn, pan_day) %>%
   head(4) %>%
 	summarize(order_count = n(),
-	          pt_count    = n_distinct(patient_id)) 
+	          day_count    = n_distinct(pan_day)) 
 ```
 
 ## Your Turn 1
 
-Add onto the code in the above chunk to calculate:
-
-1) Mean count of orders per patient
-2) Mean count of orders per department
+Add onto the code in the above chunk to calculate the items for a and b below.
 
 *Hints:* 
 
-- Start by adding a new code block here (copy/paste above or CTRL-ALT-I).
+- Start by adding a new code block under each item (copy/paste above or CTRL-ALT-I).
 - Then copy code from the previous code block and edit to determine the mean number of orders per patient. 
 - Next, add code to calculate the mean count of orders per department. 
-- Assign the results to new objects, orders_1 and orders_2.
+- Assign the results to new objects, orders_1a and orders_1b.
+
+a) Mean count of orders per `pan_day`
  
-
-## Your Turn 2
-
-Use summarize() to calculate:
-
-1) The date of the first (or minimum) order
-2) The median time difference between order_time and result_time
-
-*Hint: Refer to function help for missing data (NA) handling*
-
 ```{r, eval=FALSE}
-orders %>% 
-	summarize(______________)
+
+```
+ 
+```{r}
+# solution
+stats_1a <- covid_testing %>%
+	summarize(order_count = n(),
+	          day_count = n_distinct(pan_day),
+	          order_count_mean = n() / n_distinct(pan_day))
+stats_1a
 ```
 
+b) Mean count of orders per clinic
 
 ```{r, eval=FALSE}
-orders %>%
-  mutate(result_interval = ______________) %>%
-  summarize(result_interval_med = __________________________)
+
+```
+
+```{r}
+# solution
+stats_1b <- covid_testing %>%
+	summarize(order_count = n(),
+	          clinic_count = n_distinct(clinic_name),
+	          order_count_mean = order_count / clinic_count)
+stats_1b
+```
+
+## Summarize examples
+
+### Last pandemic day (in data)
+```{r, eval=FALSE}
+covid_testing %>%
+  summarize(last_day = ____(pan_day))
+  
+```
+
+```{r}
+# solution
+covid_testing %>%
+  summarize(last_day = last(pan_day))
+```
+
+### Median turnaround time
+```{r, eval=FALSE}
+covid_testing %>%
+  mutate(col_ver_tat = col_rec_tat ___ rec_ver_tat) %>%
+  summarize(col_ver_tat_mean = mean(col_ver_tat),
+            col_ver_tat_median = ______(col_ver_tat))
+```
+
+```{r}
+# solution
+covid_testing %>%
+  mutate(col_ver_tat = col_rec_tat + rec_ver_tat) %>%
+  summarize(col_ver_tat_mean = mean(col_ver_tat),
+            col_ver_tat_median = median(col_ver_tat))
 ```
 
 ## group_by
 
 ```{r}
-orders %>% 
-  group_by(patient_id, department) %>%
-  head(4)
+covid_testing %>% 
+  group_by(pan_day)
 ```
 
 ## group_by %>% summarize
 
 ```{r}
-orders %>%
-	group_by(patient_id) %>%
-	summarize(order_count = n()) %>%
-	summarize(pt_order_count_mean = mean(order_count))
+covid_testing %>%
+	group_by(pan_day) %>%
+	summarize(order_count = n())
 ```
 
-## Your Turn 4
+## Your Turn 3
 
-1) Calculate the median number of orders per patient
-2) Calculate the maximum number of TSH orders per patient
-3) (*Bonus*) The 5th and 95th percentile of the number of orders per patients
-
-## Your Turn 5
-Calculate the mean order count per patient for each department
-
-*Hint: summarize() rolls up a single grouping variable at a time*
+a) Calculate the median turnaround time for each day
 
 ```{r, eval=FALSE}
-orders %>%
-  ________(______________) %>%
-  summarize(_______________) %>%
-  summarize(_______________________)
+covid_testing %>%
+  mutate(col_ver_tat = ________________) %>%
+  group_by(______) %>%
+  summarize(col_ver_tat_median = ___________)
 ```
-
-## Compare two sets of count data
-
-- Is the distribution of the count of orders per patient different in the Internal Medicine and Family Medicine clinics?
-
-## Create sample distributions
 
 ```{r}
-orders_per_pt_dept <- orders %>%	        
-				filter(department %in% c("INTERNAL MEDICINE CLINIC", "FAMILY MEDICINE CLINIC")) %>%
-        group_by(department, patient_id) %>%	        
-				summarize(order_count = n()) %>%     
-				ungroup()
-				
-head(orders_per_pt_dept)
+# solution
+covid_testing %>%
+  mutate(col_ver_tat = col_rec_tat + rec_ver_tat) %>%
+  group_by(pan_day) %>%
+  summarize(col_ver_tat_median = median(col_ver_tat))
 ```
 
-## Visualize the distribution of order counts
-
-```{r}
-orders_per_pt_dept %>%
-	ggplot() +
-	geom_histogram(aes(x = order_count))
-```
-
-## Describe the central tendency of the order count
-
-```{r}
-orders_per_pt_dept %>% 
-		group_by(department) %>% 
-		summarize(order_count_median = median(order_count), 
-			        order_count_mean = mean(order_count))
-```
-
-## Compare the distributions of order counts
-
-```{r}
-wilcox.test(order_count ~ department, 
-            data        = orders_per_pt_dept, 
-            alternative = "two.sided", 
-            paired      = FALSE, 
-            conf.int    = TRUE)
-```
-
-## Your Turn 6
-
-Compare order counts across the nephrology, cardiology, and gastroenterology departments. Are they different?
-
-*Hint: Convert department to a factor using function factor()*
+b) (*Extra*) The median number of orders per day
 
 ```{r, eval=FALSE}
-orders %>%
-  mutate(department = factor(department)) %>%      # Convert department from character to factor
-  filter(__________________________________) %>%
-  group_by(_________________) %>%
-  summarize(_______________) %>%
-  ungroup() %>%
-  kruskal.test(____________ ~ _____________, 
-	             data = .)           # `.` refers to the data frame passed via the upstream pipe (%>%)
+covid_testing %>%
+  group_by(_________) %>%
+  summarize(n_orders = __________) %>%
+  summarize(n_orders_median = _____________)
 ```
 
+```{r}
+# solution
+covid_testing %>%
+  group_by(pan_day) %>%
+  summarize(n_orders = n()) %>%
+  summarize(n_orders_median = median(n_orders))
+```
+
+## Group_by %>% Summarize examples
+
+### Number of tests per day by group
+
+```{r, eval=FALSE}
+# TODO replace
+tmp <- covid_testing %>%
+  group_by(pan_day) %>%
+  summarize(n_tests = n(),
+            n_pos = ___________________,
+            p_pos = _______ / n_tests * 100)
+
+g1 <- ggplot(data = tmp) +
+  geom_point(aes(x = ______, y = _____)) +
+  geom_smooth(aes(x = _______, y = ______), method = 'loess') +
+  ylab("% Positive") +
+  xlab("Pandemic day")
+g1
+
+g2 <- ggplot(data = tmp) +
+  geom_point(aes(x = _______, y = ______)) +
+  geom_smooth(aes(x = _______, y = _______), method = 'loess') +
+  ylab("# Positive") +
+  xlab("Pandemic day")
+g2
+
+g1 / g2
+```
+
+```{r}
+# solution
+tmp <- covid_testing %>%
+  group_by(pan_day) %>%
+  summarize(n_tests = n(),
+            n_pos = sum(result == 'positive'),
+            p_pos = n_pos / n_tests * 100)
+
+g1 <- ggplot(data = tmp) +
+  geom_point(aes(x = pan_day, y = p_pos)) +
+  geom_smooth(aes(x = pan_day, y = p_pos), method = 'loess') +
+  ylab("% Positive") +
+  xlab("Pandemic day")
+g1
+
+g2 <- ggplot(data = tmp) +
+  geom_point(aes(x = pan_day, y = n_pos)) +
+  geom_smooth(aes(x = pan_day, y = n_pos), method = 'loess') +
+  ylab("# Positive") +
+  xlab("Pandemic day")
+g2
+
+g1 / g2
+```
+
+## Association testing
+
+TODO Plan
+- Walk through the remapping together
+- Walk through evidence for association -- Fisher.test
+- Your Turn: government VS commercial [2x2]; what is the p-value? what is the odds ratio? what is the confidence interval
+
+### payor_group
+```{r}
+covid_testing %>%
+  count(payor_group)
+
+tmp <- covid_testing %>%
+  mutate(payor_group_fac = case_when(
+                              is.na(payor_group)                                                            ~ "unassigned",
+                              payor_group %in% c("charity care", "medical assistance", "self pay", "other") ~ "other",
+                                                                                                      TRUE ~ payor_group)
+  ) %>%
+  filter(result %in% c("positive", "negative"))
+
+tmp %>%
+  count(payor_group_fac)
+
+# Hypergeometric test
+tmp %>% 
+  count(payor_group_fac, result) %>%
+  spread(key = "result", value = "n") %>%
+  select(-payor_group_fac) %>%
+  fisher.test(simulate.p.value = T)
+
+# Your turn
+tmp %>% 
+  count(payor_group_fac, result) %>%
+  filter(payor_group_fac %in% c("commercial", "government")) %>%
+  spread(key = "result", value = "n") %>%
+  select(-payor_group_fac) %>%
+  fisher.test()
+
+
+```
+
+Demo logistic regression. Need to clean up and simplify
+
+```{r, eval=FALSE}
+tmp <- covid_testing %>%
+  mutate(payor_group_fac = case_when(
+                              is.na(payor_group)                                                            ~ "unassigned",
+                              payor_group %in% c("charity care", "medical assistance", "self pay", "other") ~ "other",
+                                                                                                      TRUE ~ payor_group)
+  ) %>%
+  filter(result %in% c("positive", "negative"))
+
+tmp %<>%
+  mutate(result_fac = factor(result, levels=c("negative", "positive"), ordered=T),
+         gender = factor(gender, levels = c("female", "male")),
+         payor_group_fac = (payor_group == "commercial"))
+
+tmp_fit <- tmp %>%
+  glm(result_fac ~ gender + payor_group_fac + age,
+      data=., 
+      family="binomial"
+  )
+
+tidy(tmp_fit)
+
+add_pr
+
+
+```
 
