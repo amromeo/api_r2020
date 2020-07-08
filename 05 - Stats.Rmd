@@ -9,16 +9,8 @@ editor_options:
 
 ```{r setup}
 library(tidyverse)  # Provides functions used throughout this session
-library(magrittr)   # %<>%
-library(patchwork)  # Combine multiple plots together
-library(broom)      # tidy statistics functions
-library(yardstick)
 
 covid_testing <- read_csv("data/covid_testing.csv")
-
-# remove pre-pandemic testing
-covid_testing <- covid_testing %>%
-  filter(pan_day >= 0)
 ```
 
 ## Summarize
@@ -169,119 +161,113 @@ covid_testing %>%
 # TODO replace
 tmp <- covid_testing %>%
   group_by(pan_day) %>%
-  summarize(n_tests = n(),
-            n_pos = ___________________,
-            p_pos = _______ / n_tests * 100)
+  summarize(n_tests = n())
 
-g1 <- ggplot(data = tmp) +
-  geom_point(aes(x = ______, y = _____)) +
-  geom_smooth(aes(x = _______, y = ______), method = 'loess') +
-  ylab("% Positive") +
-  xlab("Pandemic day")
-g1
-
-g2 <- ggplot(data = tmp) +
+ggplot(data = tmp) +
   geom_point(aes(x = _______, y = ______)) +
   geom_smooth(aes(x = _______, y = _______), method = 'loess') +
-  ylab("# Positive") +
+  ylab("# Tests") +
   xlab("Pandemic day")
-g2
-
-g1 / g2
 ```
 
 ```{r}
 # solution
 tmp <- covid_testing %>%
   group_by(pan_day) %>%
-  summarize(n_tests = n(),
-            n_pos = sum(result == 'positive'),
-            p_pos = n_pos / n_tests * 100)
+  summarize(n_tests = n())
 
-g1 <- ggplot(data = tmp) +
-  geom_point(aes(x = pan_day, y = p_pos)) +
-  geom_smooth(aes(x = pan_day, y = p_pos), method = 'loess') +
-  ylab("% Positive") +
+ggplot(data = tmp) +
+  geom_point(aes(x = pan_day, y = n_tests)) +
+  geom_smooth(aes(x = pan_day, y = n_tests), method = 'loess') +
+  ylab("# of tests") +
   xlab("Pandemic day")
-g1
 
-g2 <- ggplot(data = tmp) +
-  geom_point(aes(x = pan_day, y = n_pos)) +
-  geom_smooth(aes(x = pan_day, y = n_pos), method = 'loess') +
-  ylab("# Positive") +
-  xlab("Pandemic day")
-g2
-
-g1 / g2
 ```
 
 ## Association testing
 
-TODO Plan
-- Walk through the remapping together
-- Walk through evidence for association -- Fisher.test
-- Your Turn: government VS commercial [2x2]; what is the p-value? what is the odds ratio? what is the confidence interval
-
-### payor_group
+### Data wrangling
 ```{r}
 covid_testing %>%
-  count(payor_group)
+  group_by(payor_group) %>%
+  summarize(n = n())
+```
 
-tmp <- covid_testing %>%
+```{r}
+covid_testing_2 <- covid_testing %>%
   mutate(payor_group_fac = case_when(
                               is.na(payor_group)                                                            ~ "unassigned",
                               payor_group %in% c("charity care", "medical assistance", "self pay", "other") ~ "other",
-                                                                                                      TRUE ~ payor_group)
-  ) %>%
+                                                                                                      TRUE ~ payor_group)) %>%
   filter(result %in% c("positive", "negative"))
 
-tmp %>%
-  count(payor_group_fac)
+covid_testing_2 %>%
+  group_by(payor_group_fac) %>%
+  summarize(n = n())
+```
 
-# Hypergeometric test
-tmp %>% 
-  count(payor_group_fac, result) %>%
+```{r}
+# Generate counts
+tmp_table_tall <- covid_testing_2 %>% 
+  group_by(payor_group_fac, result) %>%
+  summarize(n = n()) %>%
+  ungroup()
+tmp_table_tall
+
+# Pivot from tall to wide table
+tmp_table_wide <- tmp_table_tall %>%
+  spread(key = "result", value = "n") %>%
+  select(-payor_group_fac)
+tmp_table_wide
+
+# Hypergeometric test for association
+tmp_table_wide %>%
+  fisher.test(simulate.p.value = T)
+```
+
+## Your Turn 4
+```{r, eval = FALSE}
+covid_testing_2 %>% 
+  group_by(___________) %>%
+  summarize(n = n()) %>%
+  ungroup() %>%
+  _________________   %>%
   spread(key = "result", value = "n") %>%
   select(-payor_group_fac) %>%
-  fisher.test(simulate.p.value = T)
+  _________
 
-# Your turn
-tmp %>% 
-  count(payor_group_fac, result) %>%
+```
+
+```{r}
+# solution
+covid_testing_2 %>% 
+  group_by(payor_group_fac, result) %>%
+  summarize(n = n()) %>%
+  ungroup() %>%
   filter(payor_group_fac %in% c("commercial", "government")) %>%
   spread(key = "result", value = "n") %>%
   select(-payor_group_fac) %>%
   fisher.test()
 
-
 ```
 
-Demo logistic regression. Need to clean up and simplify
+## What Else?
 
+### Logistic regression
 ```{r, eval=FALSE}
-tmp <- covid_testing %>%
-  mutate(payor_group_fac = case_when(
-                              is.na(payor_group)                                                            ~ "unassigned",
-                              payor_group %in% c("charity care", "medical assistance", "self pay", "other") ~ "other",
-                                                                                                      TRUE ~ payor_group)
-  ) %>%
-  filter(result %in% c("positive", "negative"))
-
-tmp %<>%
+tmp <- covid_testing_2 %>%
+  filter(payor_group_fac %in% c("commercial", "government")) %>%
   mutate(result_fac = factor(result, levels=c("negative", "positive"), ordered=T),
-         gender = factor(gender, levels = c("female", "male")),
-         payor_group_fac = (payor_group == "commercial"))
+         payor_group_fac = (payor_group == "government"))
 
 tmp_fit <- tmp %>%
-  glm(result_fac ~ gender + payor_group_fac + age,
-      data=., 
-      family="binomial"
+  glm(result_fac ~ payor_group_fac + age,  # model formula
+      data=.,                              # dataset
+      family="binomial"                    # type of model
   )
 
-tidy(tmp_fit)
+summary(tmp_fit)
 
-add_pr
-
-
+exp(coefficients(tmp_fit))  # odds
 ```
 
