@@ -4,6 +4,19 @@ After this workshop you will have a foundation for building future knowledge and
 
 The most comprehensive inventory of R related resources and educational material can be found on [RStudio's website](https://www.rstudio.com/resources/). Check out the huge inventory of guidelines, workshop material, videos, and other useful content.
 
+---
+
+### RStudio Cheatsheets
+
+Very well-designed (if somewhat dense) two-page overview cards for specific R packages or topics. We recommend:
+
+[Data Import Cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf)
+
+[Data Visualization Cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-visualization-2.1.pdf)
+
+[Data Transformation Cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf)
+
+[R Markdown Cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/rmarkdown-2.0.pdf)
 
 ---
 

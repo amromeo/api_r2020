@@ -1,6 +1,4 @@
 mrn,first_name,last_name,gender,pan_day,test_id,clinic_name,result,demo_group,age,drive_thru_ind,ct_value,orderset,payor_group,patient_class,col_rec_tat,rec_ver_tat
-5000876,sarella,stark,female,-2454,covid,medical center,positive,client,0,0,33.19,1,NA,NA,29.5,11.5
-5006017,alester,stark,male,-6,covid,clinical lab,negative,patient,0,1,45,1,NA,NA,3.6,5
 5001412,jhezane,westerling,female,4,covid,inpatient ward a,negative,patient,0,0,45,0,government,inpatient,1.4,5.2
 5000533,penny,targaryen,female,7,covid,clinical lab,negative,patient,0,1,45,0,commercial,not applicable,2.3,5.8
 5009134,grunt,rivers,male,7,covid,clinical lab,negative,patient,0.8,1,45,1,NA,NA,7.3,4.7
