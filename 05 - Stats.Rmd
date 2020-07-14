@@ -32,19 +32,16 @@ covid_testing %>%
 
 ## Your Turn 1
 
-Add onto the code in the above chunk to calculate the items for a and b below.
+Fill in gaps in code below to:
 
-*Hints:* 
-
-- Start by adding a new code block under each item (copy/paste above or CTRL-ALT-I).
-- Then copy code from the previous code block and edit to determine the mean number of orders per patient. 
-- Next, add code to calculate the mean count of orders per department. 
-- Assign the results to new objects, orders_1a and orders_1b.
-
-a) Mean count of orders per `pan_day`
+a) Calculate the mean count of orders per `pan_day`
  
 ```{r, eval=FALSE}
-
+stats_1a <- covid_testing %>%
+	summarize(order_count = n(),
+	          day_count = n_distinct(pan_day),
+	          order_count_mean = _______________)
+stats_1a
 ```
  
 ```{r}
@@ -56,10 +53,14 @@ stats_1a <- covid_testing %>%
 stats_1a
 ```
 
-b) Mean count of orders per clinic
+b) Calculate the mean count of orders per clinic
 
 ```{r, eval=FALSE}
-
+stats_1b <- covid_testing %>%
+	summarize(order_count = n(),
+	          clinic_count = _______________,
+	          order_count_mean = _________________)
+stats_1b
 ```
 
 ```{r}
@@ -101,6 +102,9 @@ covid_testing %>%
   summarize(col_ver_tat_mean = mean(col_ver_tat),
             col_ver_tat_median = median(col_ver_tat))
 ```
+
+## Your Turn 2
+Consider: How would you calculate the median number of orders per day?
 
 ## group_by
 
@@ -158,7 +162,6 @@ covid_testing %>%
 ### Number of tests per day by group
 
 ```{r, eval=FALSE}
-# TODO replace
 tmp <- covid_testing %>%
   group_by(pan_day) %>%
   summarize(n_tests = n())
@@ -166,7 +169,7 @@ tmp <- covid_testing %>%
 ggplot(data = tmp) +
   geom_point(aes(x = _______, y = ______)) +
   geom_smooth(aes(x = _______, y = _______), method = 'loess') +
-  ylab("# Tests") +
+  ylab("# of tests") +
   xlab("Pandemic day")
 ```
 
@@ -184,7 +187,7 @@ ggplot(data = tmp) +
 
 ```
 
-## Association testing
+## Sats: Association testing
 
 ### Data wrangling
 ```{r}
@@ -226,6 +229,7 @@ tmp_table_wide %>%
 ```
 
 ## Your Turn 4
+
 ```{r, eval = FALSE}
 covid_testing_2 %>% 
   group_by(___________) %>%
