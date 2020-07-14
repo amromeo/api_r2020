@@ -1,0 +1,47 @@
+---
+title: "COVID-19 Dashboard"
+output: 
+  flexdashboard::flex_dashboard:
+    orientation: rows
+---
+
+```{r setup, include=FALSE}
+library(flexdashboard)
+library(tidyverse)
+library(plotly)
+covid <- read_csv("../data/covid_testing.csv")
+```
+
+Row
+-----------------------------------------------------------------------
+
+### Test Volumes Over Time
+
+```{r, fig.width=12}
+volumes_plot <- ggplot(data = covid, mapping = aes(x = pan_day, fill = result)) +
+  geom_bar(stat = "count")
+ggplotly(volumes_plot)
+```
+
+Row
+-----------------------------------------------------------------------
+
+### In Lab Turnaround Times
+
+```{r}
+tat_plot <- ggplot(covid) +
+  geom_point(mapping = aes(x = pan_day, y = rec_ver_tat)) +
+  ylim(0, 50)
+ggplotly(tat_plot)
+```
+
+### Distribution of Cycle Threshold Values
+
+```{r}
+covid_positive <- covid %>%
+  filter(result == "positive")
+ct_histogram <- ggplot(data = covid_positive, mapping = aes(x = ct_value)) +
+  geom_histogram(binwidth = 1)
+ggplotly(ct_histogram)
+```
+
