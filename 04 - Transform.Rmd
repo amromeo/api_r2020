@@ -191,7 +191,8 @@ Create a new column using the mutate() function that contains the total TAT.
 Hint: The total TAT is the sum of `col_rec_tat` and `rec_ver_tat`
 
 ```{r Your Turn 6}
-
+covid_testing %>%
+	mutate(total_tat = _________)
 ```
 
 
