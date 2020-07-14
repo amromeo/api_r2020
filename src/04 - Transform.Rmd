@@ -7,7 +7,7 @@ title: "Transform Data"
 ```{r Your Turn 1, message=FALSE}
 library(tidyverse)  # Provides functions used throughout this session
 
-covid_testing <- read_csv("data/covid_testing.csv")
+covid_testing <- read_csv("/cloud/project/data/covid_testing.csv")
 ```
 
 How can you confirm that you have successfully loaded the data file into Rstudio?
@@ -173,7 +173,7 @@ CHALLENGE: Use your mouse to select the name of the new data frame from the list
 covid_testing %>% 
   filter(clinic_name=='picu') %>% #Here filter to the clinic with the name "picu"
   select(pan_day,rec_ver_tat) %>% #Here select the columns you want to keep
-  arrange(pan_day)    #Here arrange the pan_day column from highest to lowest (check slide 42 the arrange section of this file to use the desc() function)
+  arrange(desc(pan_day))    #Here arrange the pan_day column from highest to lowest (check slide 42 the arrange section of this file to use the desc() function)
 ```
 
 
@@ -192,7 +192,7 @@ Hint: The total TAT is the sum of `col_rec_tat` and `rec_ver_tat`
 
 ```{r Your Turn 6}
 covid_testing %>% 
-  mutate(totals = col_rec_tat+rec_ver_tat)
+  mutate(total_tat = col_rec_tat+rec_ver_tat)
 ```
 
 
