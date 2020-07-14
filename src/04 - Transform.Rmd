@@ -33,7 +33,7 @@ A. Alter the code to select just the `first_name` column. Assign the result to `
 
 ```{r Your Turn 2}
 # Remove the "_______" and replace it with your answer
-covid_testing_2a <- select(covid_testing, ________)
+covid_testing_2a <- select(covid_testing, first_name)
 covid_testing_2a
 ```
 
@@ -41,7 +41,7 @@ B. If you have time, alter this line of code and see if you can select all colum
 
 ```{r Your Turn 2b}
 # Remove the "_______" and replace it with your answer
-covid_testing_2b <- select(covid_testing, ________)
+covid_testing_2b <- select(covid_testing, -first_name)
 covid_testing_2b
 ```
 
@@ -82,14 +82,14 @@ Use the 3 code blocks below, and `filter()`, to show how you would filter the `c
 
 A. You work in a pediatric hospital so there shouldn't too many adults in the data set. Find every test for patients over age 80. The column in which age is found is named `age`. Assign the new data frame to the object `covid_testing_3a`.
 ```{r Your Turn 3a}
-covid_testing_3a <- filter(covid_testing, ________) #replace the ____ with a logical statement identifying tests for patients greater than 80
+covid_testing_3a <- filter(covid_testing, age>80) #replace the ____ with a logical statement identifying tests for patients greater than 80
 covid_testing_3a
 ```
 
 
 B. Do we have a lot of outreach work for COVID testing? Find all of the covid testing where the demographic group (`demo_group`) is equal to "client". Assign the new data frame to the object `covid_testing_3b`.
 ```{r Your Turn 3b}
-covid_testing_3b <- filter(covid_testing, ________)
+covid_testing_3b <- filter(covid_testing, demo_group=='client')
 covid_testing_3b
 ```
 
@@ -114,12 +114,12 @@ arrange(covid_testing, desc(mrn))  #Sort from largest to smallest MRN
 ```
 
 ## Your Turn 4
-The column `ct_result` contains the cycle threshold (Ct) for the real-time PCR that generated the final result.
+The column `ct_value` contains the cycle threshold (Ct) for the real-time PCR that generated the final result.
 
 How might you use arrange() to determine the highest and lowest Ct result in the dataset? 
 
 ```{r Your Turn 4}
-arrange(covid_testing, __________)
+arrange(covid_testing, ct_value)
 ```
 
 
@@ -171,9 +171,9 @@ CHALLENGE: Use your mouse to select the name of the new data frame from the list
 
 ```{r Your Turn 5}
 covid_testing %>% 
-  filter(________) %>% #Here filter to the clinic with the name "picu"
-  select(________) %>% #Here select the columns you want to keep
-  arrange(________)    #Here arrange the pan_day column from highest to lowest (check slide 42 the arrange section of this file to use the desc() function)
+  filter(clinic_name=='picu') %>% #Here filter to the clinic with the name "picu"
+  select(pan_day,rec_ver_tat) %>% #Here select the columns you want to keep
+  arrange(pan_day)    #Here arrange the pan_day column from highest to lowest (check slide 42 the arrange section of this file to use the desc() function)
 ```
 
 
@@ -191,7 +191,8 @@ Create a new column using the mutate() function that contains the total TAT.
 Hint: The total TAT is the sum of `col_rec_tat` and `rec_ver_tat`
 
 ```{r Your Turn 6}
-
+covid_testing %>% 
+  mutate(totals = col_rec_tat+rec_ver_tat)
 ```
 
 
