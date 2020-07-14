@@ -9,6 +9,7 @@ output:
 ```{r setup, include=FALSE}
 library(flexdashboard)
 library(tidyverse)
+library(plotly)
 covid <- read_csv("data/covid_testing.csv")
 ```
 
@@ -17,7 +18,7 @@ Column {data-width=650}
 
 ### Test Volumes Over Time
 
-```{r}
+```{r, fig.width=10}
 ggplot(data = covid, mapping = aes(x = pan_day)) +
   geom_bar(stat = "count")
 ```
@@ -29,7 +30,8 @@ Column {data-width=350}
 
 ```{r}
 ggplot(covid) +
-  geom_point(mapping = aes(x = pan_day, y = rec_ver_tat))
+  geom_point(mapping = aes(x = pan_day, y = rec_ver_tat)) +
+  ylim(0, 50)
 ```
 
 ### Distribution of Cycle Threshold Values
