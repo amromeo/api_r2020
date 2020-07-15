@@ -7,7 +7,7 @@ title: "Transform Data"
 ```{r Your Turn 1, message=FALSE}
 library(tidyverse)  # Provides functions used throughout this session
 
-covid_testing <- read_csv("data/covid_testing.csv")
+covid_testing <- read_csv("data/covid_testing.csv") #Read in data
 ```
 
 How can you confirm that you have successfully loaded the data file into Rstudio?
