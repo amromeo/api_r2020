@@ -40,6 +40,6 @@ ggplot(covid) +
 covid_positive <- covid %>%
   filter(result == "positive")
 ggplot(data = covid_positive, mapping = aes(x = ct_value)) +
-  geom_histogram()
+  geom_histogram(binwidth = 1)
 ```
 
