@@ -43,32 +43,14 @@ stats_1a <- covid_testing %>%
 	          order_count_mean = _______________)
 stats_1a
 ```
- 
-```{r}
-# solution
-stats_1a <- covid_testing %>%
-	summarize(order_count = n(),
-	          day_count = n_distinct(pan_day),
-	          order_count_mean = n() / n_distinct(pan_day))
-stats_1a
-```
 
 b) Calculate the mean count of orders per clinic
 
 ```{r, eval=FALSE}
 stats_1b <- covid_testing %>%
 	summarize(order_count = n(),
-	          clinic_count = _______________,
+	          clinic_count = ______________),
 	          order_count_mean = _________________)
-stats_1b
-```
-
-```{r}
-# solution
-stats_1b <- covid_testing %>%
-	summarize(order_count = n(),
-	          clinic_count = n_distinct(clinic_name),
-	          order_count_mean = order_count / clinic_count)
 stats_1b
 ```
 
@@ -78,13 +60,6 @@ stats_1b
 ```{r, eval=FALSE}
 covid_testing %>%
   summarize(last_day = ____(pan_day))
-  
-```
-
-```{r}
-# solution
-covid_testing %>%
-  summarize(last_day = last(pan_day))
 ```
 
 ### Median turnaround time
@@ -93,14 +68,6 @@ covid_testing %>%
   mutate(col_ver_tat = col_rec_tat ___ rec_ver_tat) %>%
   summarize(col_ver_tat_mean = mean(col_ver_tat),
             col_ver_tat_median = ______(col_ver_tat))
-```
-
-```{r}
-# solution
-covid_testing %>%
-  mutate(col_ver_tat = col_rec_tat + rec_ver_tat) %>%
-  summarize(col_ver_tat_mean = mean(col_ver_tat),
-            col_ver_tat_median = median(col_ver_tat))
 ```
 
 ## Your Turn 2
@@ -132,14 +99,6 @@ covid_testing %>%
   summarize(col_ver_tat_median = ___________)
 ```
 
-```{r}
-# solution
-covid_testing %>%
-  mutate(col_ver_tat = col_rec_tat + rec_ver_tat) %>%
-  group_by(pan_day) %>%
-  summarize(col_ver_tat_median = median(col_ver_tat))
-```
-
 b) (*Extra*) The median number of orders per day
 
 ```{r, eval=FALSE}
@@ -149,18 +108,9 @@ covid_testing %>%
   summarize(n_orders_median = _____________)
 ```
 
-```{r}
-# solution
-covid_testing %>%
-  group_by(pan_day) %>%
-  summarize(n_orders = n()) %>%
-  summarize(n_orders_median = median(n_orders))
-```
-
 ## Group_by %>% Summarize examples
 
-### Number of tests per day by group
-
+### Number of tests per day
 ```{r, eval=FALSE}
 tmp <- covid_testing %>%
   group_by(pan_day) %>%
@@ -171,20 +121,6 @@ ggplot(data = tmp) +
   geom_smooth(aes(x = _______, y = _______), method = 'loess') +
   ylab("# of tests") +
   xlab("Pandemic day")
-```
-
-```{r}
-# solution
-tmp <- covid_testing %>%
-  group_by(pan_day) %>%
-  summarize(n_tests = n())
-
-ggplot(data = tmp) +
-  geom_point(aes(x = pan_day, y = n_tests)) +
-  geom_smooth(aes(x = pan_day, y = n_tests), method = 'loess') +
-  ylab("# of tests") +
-  xlab("Pandemic day")
-
 ```
 
 ## Stats: Association testing
@@ -210,6 +146,9 @@ covid_testing_2 %>%
 ```
 
 ```{r}
+covid_testing_2 %>%
+  select(payor_group_fac, result)
+
 # Generate counts
 tmp_table_tall <- covid_testing_2 %>% 
   group_by(payor_group_fac, result) %>%
@@ -219,39 +158,30 @@ tmp_table_tall
 
 # Pivot from tall to wide table
 tmp_table_wide <- tmp_table_tall %>%
-  spread(key = "result", value = "n") %>%
-  select(-payor_group_fac)
+  spread(key = "result", value = "n") 
 tmp_table_wide
 
 # Hypergeometric test for association
 tmp_table_wide %>%
+  select(-payor_group_fac) %>%
   fisher.test(simulate.p.value = T)
 ```
 
 ## Your Turn 4
 
+Use fisher.test() to estimate the relative odds of a positive test result for patients with government insurance compared to commercial insurance?
+
 ```{r, eval = FALSE}
-covid_testing_2 %>% 
+tmp <- covid_testing_2 %>% 
   group_by(___________) %>%
   summarize(n = n()) %>%
-  ungroup() %>%
+  ungroup()
+
+tmp %>%
   _________________   %>%
   spread(key = "result", value = "n") %>%
   select(-payor_group_fac) %>%
   _________
-
-```
-
-```{r}
-# solution
-covid_testing_2 %>% 
-  group_by(payor_group_fac, result) %>%
-  summarize(n = n()) %>%
-  ungroup() %>%
-  filter(payor_group_fac %in% c("commercial", "government")) %>%
-  spread(key = "result", value = "n") %>%
-  select(-payor_group_fac) %>%
-  fisher.test()
 
 ```
 
@@ -261,13 +191,14 @@ covid_testing_2 %>%
 ```{r, eval=FALSE}
 tmp <- covid_testing_2 %>%
   filter(payor_group_fac %in% c("commercial", "government")) %>%
-  mutate(result_fac = factor(result, levels=c("negative", "positive"), ordered=T),
+  mutate(result_fac = factor(result, 
+                             levels=c("negative", "positive"), 
+                             ordered=T),
          payor_group_fac = (payor_group == "government"))
 
-tmp_fit <- tmp %>%
-  glm(result_fac ~ payor_group_fac + age,  # model formula
-      data=.,                              # dataset
-      family="binomial"                    # type of model
+tmp_fit <- glm(result_fac ~ payor_group_fac + age,  # model formula
+               data = tmp,                              # dataset
+               family = "binomial"                    # type of model
   )
 
 summary(tmp_fit)
