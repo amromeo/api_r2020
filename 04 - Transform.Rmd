@@ -29,7 +29,7 @@ select(covid_testing, -mrn, -last_name) # select columns to remove
 
 ## Your Turn 2
 
-A. Alter the code to select just the `first_name` column. Assign the result to `covid_testing_2` and show the resulting data frame by executing the following line with just the name of the object: `covid_testing_2` 
+A. Alter the code to select just the `first_name` column. Assign the result to `covid_testing_2a` and show the resulting data frame by executing the following line with just the name of the object: `covid_testing_2a` 
 
 ```{r Your Turn 2}
 # Remove the "_______" and replace it with your answer
@@ -50,12 +50,12 @@ covid_testing_2b
 
 If you have extra time try the following challenge:
 
-In the `covid_testing` dataset the turnaround time metrics are found in columns 16 and 17 and are labeled `col_rec_tat` and `rec_var_tat`. Your goal is to you selectively remove these columns. Using what we learned as well as the dplyr cheatsheet which of the following code snippets could you use to remove these columns?
+In the `covid_testing` dataset the turnaround time metrics are labeled `col_rec_tat` and `rec_var_tat`. Your goal is to select just these columns. Using what we learned as well as the dplyr cheatsheet which of the following code snippets could you use to select these columns?
 
 ```{r select challenge}
-select(covid_testing, -16,-17)
-select(covid_testing, -col_rec_tat, -rec_ver_tat)
-select(covid_testing, -contains("tat"))
+select(covid_testing, contains("rec"))
+select(covid_testing, col_rec_tat, rec_ver_tat)
+select(covid_testing, ends_with("tat"))
 #all of the above
 ```
 
@@ -161,9 +161,9 @@ Use `%>%` in the following chunk to write a sequence of functions that:
 
 3. Arrange the `pan_day` from highest to lowest so you can see most recent tests on top.
 
-Using <-, assign the result to a new variable, call it whatever you want.
+Using "<-", assign the result to a new variable, call it whatever you want.
 
-CHALLENGE: Use your mouse to select the name of the new data frame from the list of objects in the Environment tab in the upper-right pane of Rstudio. 
+CHALLENGE: Use your mouse to select the name of the new data frame from the list of objects in the Environment tab in the upper-right pane of Rstudio. Answer the following questions:
 
 - Can you find the test that exceeded 10 hours in TAT?
 - What is the typical TAT for the PICU?
