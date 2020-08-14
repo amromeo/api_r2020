@@ -5,8 +5,6 @@ output: html_notebook
 
 ### Your Turn 5: The ggplot template and aesthetics
 
-For this exercise, we will practice a technique called "pair programming". One person in the breakout room will share their screen, showing the RStudio Cloud console. This person will act as the "scribe" for the rest of the group who will contribute by making suggestions. 
-
 Run the following code chunk to set up the practice data sets.
 
 ```{r, warning = FALSE, message = FALSE}
@@ -44,7 +42,7 @@ When you run this code, you will most likely have what looks like an error displ
 
 This is actually just a message from R, telling you that it's a bad idea to use a default bin width. 
 
-The *pan_day* variable holds the day of the pandemic (an arbitrary day in late February of 2020) on which the COVID test order was placed. What would be an appropriate binwidth for *pan_day*? Discuss with your breakout-roommates! 
+The *pan_day* variable holds the day of the pandemic (an arbitrary day in late February of 2020) on which the COVID test order was placed. What would be an appropriate binwidth for *pan_day*? 
 
 (Hint: you might want to be able to see _daily_ COVID test volumes!)
 
@@ -77,7 +75,6 @@ Stop here.
 
 ### Your Turn 6: Geom functions
 
-Let's do another pair programming exercise! (Someone else should be the scribe this time.)
 
 Run the following code chunk:
 
@@ -87,7 +84,7 @@ ggplot(data = covid_testing) +
 ```
 
 
-Now, with your group, try to figure out how you would modify the code above so it draws a frequency polygon instead of histogram. Hint: Google is your friend!
+Now try to figure out how you would modify the code above so it draws a frequency polygon instead of histogram.
 
 ```{r}
 
@@ -108,7 +105,7 @@ Modify the previous code chunk so that the frequency polygon's line color is blu
 
 
 
-Within your group, predict what the following code will do. 
+Read the code below and try to predict what it will do when run. 
 
 Then run it.
 
